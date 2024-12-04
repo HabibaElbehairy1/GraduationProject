@@ -37,3 +37,5 @@ Thumbs.db
 # Ignore package folder (specific to your project)
 package/
 
+# Ignore virtual environment folder
+Backend/my_venv/
