@@ -110,8 +110,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ALLOWED_HOSTS = ['habibaelbehairy.pythonanywhere.com', '127.0.0.1', 'localhost']
-CORS_ALLOW_ALL_ORIGINS = True  
+ALLOWED_HOSTS = [
+    'habibaelbehairy.pythonanywhere.com',  # Hosted backend
+    '127.0.0.1',  # Localhost
+    'localhost',  # Localhost
+    '0.0.0.0',    # Allow all IP addresses (if needed)
+]
+
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins, including Postman
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
