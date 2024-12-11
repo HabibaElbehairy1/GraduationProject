@@ -108,6 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+ALLOWED_HOSTS = ['habibaelbehairy.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
