@@ -80,14 +80,24 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'graduation_project',  
+#         'USER': 'postgres', 
+#         'PASSWORD': '2002',  
+#         'HOST': 'localhost',  
+#         'PORT': '5432',  
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'graduation_project',  
-        'USER': 'postgres', 
-        'PASSWORD': '2002',  
-        'HOST': 'localhost',  
-        'PORT': '5432',  
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
+        'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
+        'PASSWORD': 'grovana123',  # Your MySQL password
+        'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
+        'PORT': '3306',  # Default MySQL port
     }
 }
 
@@ -110,14 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ALLOWED_HOSTS = [
-    'habibaelbehairy.pythonanywhere.com',  # Hosted backend
-    '127.0.0.1',  # Localhost
-    'localhost',  # Localhost
-    '0.0.0.0',    # Allow all IP addresses (if needed)
-]
-
-CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins, including Postman
+CORS_ALLOW_ALL_ORIGINS = True 
 
 
 # Internationalization
