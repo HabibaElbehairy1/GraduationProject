@@ -1,9 +1,20 @@
-asgiref==3.8.1
-Django==5.1.4
-django-filter==24.3
-djangorestframework==3.15.2
-pillow==11.0.0
-psycopg2==2.9.10
-psycopg2-binary==2.9.10
-sqlparse==0.5.3
-tzdata==2024.2
+Package             Version
+------------------- -------
+asgiref             3.8.1
+dj-database-url     2.3.0
+Django              5.1.4
+django-cors-headers 4.6.0
+django-filter       24.3
+django-heroku       0.3.1
+djangorestframework 3.15.2
+gunicorn            23.0.0
+mysqlclient         2.2.6
+packaging           24.2
+pillow              11.0.0
+pip                 24.0
+psycopg2            2.9.10
+psycopg2-binary     2.9.10
+sqlparse            0.5.3
+typing_extensions   4.12.2
+tzdata              2024.2
+whitenoise          6.8.2
