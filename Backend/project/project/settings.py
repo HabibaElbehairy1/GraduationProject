@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,8 +42,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'home.apps.HomeConfig',
     'django_filters',
-    'corsheaders',
-
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -91,6 +91,25 @@ DATABASES = {
     }
 }
 
+# Password hashing settings AUTHENTICATION
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+    
+}
+# Password validation settings AUTHENTICATION
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'BLACKLIST_AFTER_ROTATION': True,
+    "AUTH_HEADER_TYPES": ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -110,14 +129,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ALLOWED_HOSTS = [
-    'habibaelbehairy.pythonanywhere.com',  # Hosted backend
-    '127.0.0.1',  # Localhost
-    'localhost',  # Localhost
-    '0.0.0.0',    # Allow all IP addresses (if needed)
-]
 
-CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins, including Postman
+
 
 
 # Internationalization
