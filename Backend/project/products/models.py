@@ -16,7 +16,7 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField()
     image = models.ImageField(upload_to='products/%y/%m/%d')
     category = models.CharField(max_length = 40 , choices=Category.choices)
-
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name

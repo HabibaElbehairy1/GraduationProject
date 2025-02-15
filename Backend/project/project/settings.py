@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,8 +43,8 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'home.apps.HomeConfig',
     'django_filters',
-    'corsheaders',
-
+    'account',
+    # 'community.apps.CommunityConfig',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -81,26 +82,45 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'graduation_project',  
-#         'USER': 'postgres', 
-#         'PASSWORD': '2002',  
-#         'HOST': 'localhost',  
-#         'PORT': '5432',  
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
-        'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
-        'PASSWORD': 'grovana123',  # Your MySQL password
-        'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
-        'PORT': '3306',  # Default MySQL port
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'graduation_project',  
+        'USER': 'postgres', 
+        'PASSWORD': '2002',  
+        'HOST': 'localhost',  
+        'PORT': '5432',  
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
+#         'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
+#         'PASSWORD': 'grovana123',  # Your MySQL password
+#         'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
+#         'PORT': '3306',  # Default MySQL port
+#     }
+# }
+
+# Password hashing settings AUTHENTICATION
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+    
+}
+# Password validation settings AUTHENTICATION
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'BLACKLIST_AFTER_ROTATION': True,
+    "AUTH_HEADER_TYPES": ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+}
+
 
 
 # Password validation
@@ -122,7 +142,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True 
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
