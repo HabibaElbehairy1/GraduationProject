@@ -1,6 +1,7 @@
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from .models import UserOTP
 
 
 class SignUpSerializer(serializers.ModelSerializer):
@@ -20,6 +21,16 @@ class SignUpSerializer(serializers.ModelSerializer):
         }
 
 class UserSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(source='userprofile.image', required=False)
+
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email','password')
+        fields = ['first_name', 'last_name', 'email', 'image']
+
+
+
+
+class UserOTPSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserOTP
+        fields = ['user', 'otp', 'created_at']

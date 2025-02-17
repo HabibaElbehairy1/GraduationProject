@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'django_filters',
     'account',
+    'corsheaders',
     # 'community.apps.CommunityConfig',
 ]
 
@@ -55,8 +56,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    
 
 ]
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5500",  
+]
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'project.urls'
 
@@ -82,26 +89,26 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'graduation_project',  
-#         'USER': 'postgres', 
-#         'PASSWORD': '2002',  
-#         'HOST': 'localhost',  
-#         'PORT': '5432',  
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
-        'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
-        'PASSWORD': 'grovana123',  # Your MySQL password
-        'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
-        'PORT': '3306',  # Default MySQL port
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'graduation_project',  
+        'USER': 'postgres', 
+        'PASSWORD': '2002',  
+        'HOST': 'localhost',  
+        'PORT': '5432',  
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
+#         'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
+#         'PASSWORD': 'grovana123',  # Your MySQL password
+#         'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
+#         'PORT': '3306',  # Default MySQL port
+#     }
+# }
 
 # Password hashing settings AUTHENTICATION
 REST_FRAMEWORK = {
@@ -169,3 +176,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'grovanastore@gmail.com'
+EMAIL_HOST_PASSWORD = 'kqiq vcok fewb wvjv' 
