@@ -125,7 +125,7 @@ def change_password(request):
 
     current_password = data.get('current_password')
     new_password = data.get('new_password')
-    confirm_password = data.get('confirm_new_password')
+    confirm_password = data.get('confirm_password')
 
     if not current_password or not new_password or not confirm_password:
         return Response(
