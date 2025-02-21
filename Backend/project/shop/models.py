@@ -63,7 +63,7 @@ class Review(models.Model):
 
 
 class Wishlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, to_field='slug')
     added_at = models.DateTimeField(auto_now_add=True)
 
@@ -76,7 +76,7 @@ class Wishlist(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, to_field='slug')
     quantity = models.PositiveIntegerField(default=1)
     added_at = models.DateTimeField(auto_now_add=True)
@@ -92,7 +92,7 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15)
     email = models.EmailField()
     address = models.TextField()
