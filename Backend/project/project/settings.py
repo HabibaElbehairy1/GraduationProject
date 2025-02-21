@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'shop.apps.ShopConfig',
+    'rest_framework.authtoken',
     'home.apps.HomeConfig',
     'django_filters',
     'account',
@@ -183,4 +184,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'grovanastore@gmail.com'
-EMAIL_HOST_PASSWORD = 'kqiq vcok fewb wvjv' 
+EMAIL_HOST_PASSWORD = 'kqiq vcok fewb wvjv'
+AUTH_USER_MODEL = 'account.User'
