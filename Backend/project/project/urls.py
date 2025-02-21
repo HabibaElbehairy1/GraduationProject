@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('products.urls')),
+    path('api/', include('shop.urls')),
     path('api/', include('home.urls')),
     path('api/',include('account.urls')),
     path('api/login/',TokenObtainPairView.as_view()),

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'products.apps.ProductsConfig',
+    'shop.apps.ShopConfig',
     'home.apps.HomeConfig',
     'django_filters',
     'account',
@@ -89,26 +89,26 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'graduation_project',  
-#         'USER': 'postgres', 
-#         'PASSWORD': '2002',  
-#         'HOST': 'localhost',  
-#         'PORT': '5432',  
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
-        'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
-        'PASSWORD': 'grovana123',  # Your MySQL password
-        'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
-        'PORT': '3306',  # Default MySQL port
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'graduation_project',  
+        'USER': 'postgres', 
+        'PASSWORD': '2002',  
+        'HOST': 'localhost',  
+        'PORT': '5432',  
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
+#         'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
+#         'PASSWORD': 'grovana123',  # Your MySQL password
+#         'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
+#         'PORT': '3306',  # Default MySQL port
+#     }
+# }
 
 # Password hashing settings AUTHENTICATION
 REST_FRAMEWORK = {
@@ -116,9 +116,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-    
+    ),
+   
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
+
 # Password validation settings AUTHENTICATION
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
