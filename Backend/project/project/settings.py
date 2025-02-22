@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'account',
     'corsheaders',
+    'community',
     # 'community.apps.CommunityConfig',
 ]
 
