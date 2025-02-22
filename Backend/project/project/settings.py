@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     'django_filters',
     'account',
     'corsheaders',
-    
-    # 'community.apps.CommunityConfig',
+    'community',
+
 ]
 
 MIDDLEWARE = [

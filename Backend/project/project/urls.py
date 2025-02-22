@@ -25,8 +25,7 @@ urlpatterns = [
     path('api/', include('shop.urls')),
     path('api/', include('home.urls')),
     path('api/',include('account.urls')),
-
-    # path('api/', include('community.urls')),
+    path('api/',include('community.urls')),
 
 ]
 
