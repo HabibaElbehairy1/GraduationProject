@@ -24,6 +24,7 @@ urlpatterns = [
     # path('api/', include('products.urls')),
     # path('api/', include('home.urls')),
     path('api/',include('account.urls')),
+    path('api/',include('community.urls')),
     path('api/login/',TokenObtainPairView.as_view()),
     # path('api/', include('community.urls')),
 

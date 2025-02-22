@@ -1,36 +1,22 @@
 import logging
+import random
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.conf import settings
-from .serializers import UserSerializer ,UserOTPSerializer
-import random
-from rest_framework import generics, status 
 from django.contrib.auth import get_user_model
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.authtoken.models import Token  # ✅ Import this
-
-
-logger = logging.getLogger(__name__)
-
-User = get_user_model()
-
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .serializers import UserSerializer
-from rest_framework.generics import RetrieveAPIView
-from .models import UserOTP, UserProfile  # Import UserProfile
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-from .serializers import UserSerializer
+from .models import UserOTP, UserProfile
+from .serializers import UserSerializer, UserOTPSerializer
+
+logger = logging.getLogger(__name__)
 User = get_user_model()
+
 
 class RegisterView(generics.ListCreateAPIView):
     queryset = User.objects.all()

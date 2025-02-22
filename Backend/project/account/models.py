@@ -1,4 +1,3 @@
-from rest_framework.authtoken.models import Token
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractUser
