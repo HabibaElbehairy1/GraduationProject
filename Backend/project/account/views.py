@@ -18,7 +18,12 @@ from rest_framework.authtoken.models import Token  # ✅ Import this
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .serializers import UserSerializer
@@ -78,6 +83,46 @@ class RegisterView(generics.ListCreateAPIView):
 
         except Token.DoesNotExist:
             return Response({'error': 'Invalid or missing token'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class LoginView(APIView):
+    permission_classes = [AllowAny]  # يسمح بالوصول للجميع
+
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        if not email or not password:
+            return Response({'message': 'Email and password are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # محاولة جلب المستخدم باستخدام البريد الإلكتروني
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'message': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # التحقق من صحة كلمة المرور
+        user = authenticate(username=user.username, password=password)
+        if user is None:
+            return Response({'message': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # الحصول على أو إنشاء التوكن
+        token, _ = Token.objects.get_or_create(user=user)
+
+        return Response(
+            {
+                'message': 'Login successful',
+                'token': token.key,
+                'user': {
+                    'id': user.id,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email
+                }
+            },
+            status=status.HTTP_200_OK
+        )
+
 
 class GetUserView(generics.RetrieveDestroyAPIView):
     queryset = User.objects.all()
@@ -163,21 +208,27 @@ class UpdateUserView(UpdateAPIView):
         if data.get('password'):
             user.set_password(data['password'])
 
+        user.save()  # تأكد من حفظ التغييرات على المستخدم
+
         # Update profile fields
-        profile, _ = UserProfile.objects.get_or_create(user=user)
-        profile.date_of_birth = data.get('date_of_birth', profile.date_of_birth)
-        profile.gender = data.get('gender', profile.gender)
-        profile.phone_number = data.get('phone_number', profile.phone_number)
-
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        user.date_of_birth = data.get('date_of_birth', profile.date_of_birth)
+        user.gender = data.get('gender', profile.gender)
+        user.phone_number = data.get('phone_number', profile.phone_number)  # تأكد من تحديث رقم الهاتف
+        
         if 'image' in request.FILES:
-            profile.image = request.FILES['image']
+            user.image = request.FILES['image']
 
-        # Save the updated user and profile
-        user.save()
-        profile.save()
+        profile.save()  # تأكد من حفظ الملف الشخصي بعد التعديلات
 
         serializer = self.get_serializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(
+                        {
+                            'message': 'Data updated successfully',
+                            'user': serializer.data  
+                        },
+                        status=status.HTTP_200_OK
+                        )
 
 
 
@@ -269,8 +320,8 @@ def get_otp(request):
 
 from datetime import timedelta, datetime
 
-MAX_ATTEMPTS = 3  # الحد الأقصى لعدد المحاولات
-BLOCK_DURATION = timedelta(minutes=5)  # مدة حظر المحاولات (5 دقائق)
+MAX_ATTEMPTS = 3  # Maximum number of attempts
+BLOCK_DURATION = timedelta(minutes=5)  # Block duration (5 minutes)
 
 @api_view(['POST'])
 def verify_otp(request):
@@ -279,7 +330,7 @@ def verify_otp(request):
 
     if not email or not otp:
         return Response(
-            {'message': 'البريد الإلكتروني ورمز التحقق مطلوبان', 'status': status.HTTP_400_BAD_REQUEST},
+            {'message': 'Email and OTP are required', 'status': status.HTTP_400_BAD_REQUEST},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -287,40 +338,40 @@ def verify_otp(request):
         user = get_object_or_404(User, email=email)
         user_otp = get_object_or_404(UserOTP, user=user)
 
-        # التحقق من عدد المحاولات
+        # Check the number of attempts
         if user_otp.attempts >= MAX_ATTEMPTS:
             time_since_last_attempt = datetime.now() - user_otp.last_attempt_time
 
-            # التحقق مما إذا كان الحظر لا يزال ساريًا
+            # Check if the block is still active
             if time_since_last_attempt < BLOCK_DURATION:
                 return Response(
-                    {'message': 'تم تجاوز عدد المحاولات المسموح به. الرجاء المحاولة لاحقًا.', 'status': status.HTTP_403_FORBIDDEN},
+                    {'message': 'Maximum number of attempts exceeded. Please try again later.', 'status': status.HTTP_403_FORBIDDEN},
                     status=status.HTTP_403_FORBIDDEN
                 )
             else:
-                # إعادة تعيين عدد المحاولات بعد انتهاء فترة الحظر
+                # Reset attempts after block duration expires
                 user_otp.attempts = 0
 
-        # التحقق من صحة رمز التحقق
+        # Verify OTP
         if user_otp.otp != otp:
-            user_otp.attempts += 1  # زيادة عدد المحاولات
+            user_otp.attempts += 1  # Increase attempt count
             user_otp.save()
             return Response(
-                {'message': 'رمز التحقق غير صحيح', 'status': status.HTTP_400_BAD_REQUEST},
+                {'message': 'Invalid OTP', 'status': status.HTTP_400_BAD_REQUEST},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # إذا كان رمز التحقق صحيحًا، إعادة تعيين المحاولات وحذف رمز التحقق
+        # If OTP is correct, reset attempts and delete OTP
         user_otp.delete()
         return Response(
-            {'message': 'تم التحقق من رمز التحقق بنجاح', 'status': status.HTTP_200_OK},
+            {'message': 'OTP verified successfully', 'status': status.HTTP_200_OK},
             status=status.HTTP_200_OK
         )
 
     except Exception as e:
         logger.error(f"Error verifying OTP: {e}")
         return Response(
-            {'message': 'رمز التحقق غير صحيح', 'status': status.HTTP_400_BAD_REQUEST},
+            {'message': 'Invalid OTP', 'status': status.HTTP_400_BAD_REQUEST},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -331,21 +382,19 @@ def reset_password(request):
     email = request.data.get('email')
     new_password = request.data.get('new_password')
 
-  
     if not new_password:
         return Response(
-            {'message': 'new password is required', 'status': status.HTTP_400_BAD_REQUEST},
+            {'message': 'New password is required', 'status': status.HTTP_400_BAD_REQUEST},
             status=status.HTTP_400_BAD_REQUEST
         )
 
     try:
-        # Fetch the user and OTP
+        # Fetch the user
         user = get_object_or_404(User, email=email)
       
         # Set the new password
         user.set_password(new_password)
         user.save()
-
 
         return Response(
             {'message': 'Password reset successfully', 'status': status.HTTP_200_OK},

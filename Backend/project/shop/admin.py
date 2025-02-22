@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Order, OrderItem, Review
+from .models import Order, OrderItem, Product, Review
 from django.contrib import admin
-
+# from unfold.admin import ModelAdmin
+admin.site.register(Product)
 admin.site.site_header = "My Custom Admin Panel"
 admin.site.site_title = "Custom Admin"
 admin.site.index_title = "Welcome to the Dashboard"

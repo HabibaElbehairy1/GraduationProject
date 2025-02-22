@@ -12,38 +12,39 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(read_only=True)  # Show username instead of ID
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault()) 
     product = serializers.StringRelatedField(read_only=True)
     product_slug = serializers.CharField(source='product.slug', read_only=True) 
+
     class Meta:
         model = Review
         fields = ['product_slug', 'user', 'product', 'rating', 'created_at']
 
- 
     def create(self, validated_data):
         user = self.context['request'].user
-        product_slug = self.context['view'].kwargs.get('product_slug')  # استخدم get() لتجنب الأخطاء
+        product_slug = self.context['view'].kwargs.get('product_slug')  
 
-        product = Product.objects.get(slug=product_slug)  
-
+        product = Product.objects.filter(slug=product_slug).first()  
+        if not product:
+            raise serializers.ValidationError({"error": "Product not found."})
 
         if Review.objects.filter(user=user, product=product).exists():
             raise serializers.ValidationError({"error": "You have already reviewed this product."})
 
-        review = Review.objects.create(user=user, product=product, **validated_data)
+        review = Review.objects.create(  **validated_data)
 
-        product.update_rating()
-
+        # No need to update rating here, it will be done in perform_create
         return review
+
 
 
 
 class WishlistSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)  
-
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())  # يأخذ المستخدم من التوكن
     class Meta:
         model = Wishlist
-        fields = [ 'product', 'added_at']  
+        fields = ['user', 'product', 'added_at']  
 
     def create(self, validated_data):
         return Wishlist.objects.create(**validated_data)
@@ -52,11 +53,11 @@ class WishlistSerializer(serializers.ModelSerializer):
 
 class CartSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
-    
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())  # يأخذ المستخدم من التوكن
 
     class Meta:
         model = Cart
-        fields = [ 'product','quantity', 'added_at',]
+        fields = [ 'user','product','quantity', 'added_at',]
 
     def create(self, validated_data):
  
@@ -70,15 +71,15 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderItem
-        fields = ['id', 'order', 'product', 'product_name', 'product_slug', 'quantity', 'price']
-        read_only_fields = ['id', 'product_name', 'product_slug']
+        fields = [ 'order', 'product', 'product_name', 'product_slug', 'quantity', 'price']
+        read_only_fields = ['product_name', 'product_slug']
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
-
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())  # يأخذ المستخدم من التوكن
     class Meta:
         model = Order
-        fields = ['id', 'user', 'phone', 'email', 'address', 'items', 'total_price', 'status', 'created_at']
+        fields = [ 'user', 'phone', 'email', 'address', 'items', 'total_price', 'status', 'created_at']
         read_only_fields = ['user', 'total_price', 'status', 'created_at']
 
     def create(self, validated_data):
@@ -93,7 +94,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
         with transaction.atomic():
  
-            order = Order.objects.create(user=user, total_price=total_price, **validated_data)
+            order = Order.objects.create( total_price=total_price, **validated_data)
 
          
             order_items = []
