@@ -22,7 +22,7 @@ urlpatterns = [
     # product , filter , review
     path('', include(router.urls)),  
     path('products/<slug:slug>/', ProductDetailView.as_view(), name='product-detail'), 
-    path('products/<slug:product_slug>/reviews/', ReviewCreateView.as_view(), name='add-review'),
+    path('products/<slug:product_slug>/rate/', ReviewCreateView.as_view(), name='add-review'),
 
     # Wishlist
     path('wishlist/', WishlistListCreateView.as_view(), name='wishlist'),

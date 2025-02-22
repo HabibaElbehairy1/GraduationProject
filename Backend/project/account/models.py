@@ -2,8 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator ,MaxLengthValidator
-
-from project import settings
+from django.conf import settings
+# from project import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 
@@ -40,11 +40,11 @@ class UserProfile(models.Model):
         help_text="Phone number must be exactly 11 or 12 characters long."
     )
     GENDER_CHOICES = [
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('E', 'Engineer'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Engineer', 'Engineer'),
     ]
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
      # مثال لحقل إضافي
 
     def __str__(self):

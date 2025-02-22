@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import ContactFormAPIView
+from .views import ContactUsView, ReviewListCreateView
 
 urlpatterns = [
-    path('contact/', ContactFormAPIView.as_view(), name='contact-api'),
+    path('contact/', ContactUsView.as_view(), name='contact-us'),
+    path('reviews/', ReviewListCreateView.as_view(), name='review'),
 ]

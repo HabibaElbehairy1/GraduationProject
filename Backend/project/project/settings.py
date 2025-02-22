@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,11 +44,12 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'rest_framework.authtoken',
     'home.apps.HomeConfig',
+    'frontend.apps.FrontendConfig',
     'django_filters',
     'account',
     'corsheaders',
     'community',
-    # 'community.apps.CommunityConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -68,11 +70,11 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'project.urls'
-
+import os
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,6 +86,9 @@ TEMPLATES = [
         },
     },
 ]
+
+
+
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -175,8 +180,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Add this line
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Used for collectstatic
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
