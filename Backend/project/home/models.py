@@ -2,9 +2,10 @@
 from django.conf import settings
 from django.db import models
 from django.db import models
-from django.contrib.auth.models import User
+import uuid
 
 class ClintReview(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     review = models.TextField()
     date = models.DateField(auto_now_add=True)
@@ -16,6 +17,7 @@ class ClintReview(models.Model):
 
 
 class Contact(models.Model):
+    id = models.AutoField(primary_key=True)  # AutoField مناسب هنا لزيادة الأداء
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=15, blank=True, null=True)
