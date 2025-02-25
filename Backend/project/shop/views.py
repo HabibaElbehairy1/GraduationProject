@@ -29,14 +29,9 @@ class ProductViewSet(AuthenticatedView, viewsets.ModelViewSet):
 
 class ReviewCreateView(AuthenticatedView, generics.CreateAPIView):
     serializer_class = ReviewSerializer
-
-    def get_queryset(self):
-        return Review.objects.filter(user=self.request.user)
-
     def perform_create(self, serializer):
-        product_slug = self.kwargs['product_slug']
-        product = get_object_or_404(Product, slug=product_slug)
-        serializer.save(product=product)
+        product = get_object_or_404(Product, slug=self.kwargs['product_slug'])
+        serializer.save(user=self.request.user, product=product)
         product.update_rating()
 
 
@@ -54,61 +49,67 @@ class WishlistListCreateView(AuthenticatedView, generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
-        product_slug = self.request.data.get('product')
-
-        product = get_object_or_404(Product, slug=product_slug)
+        product = get_object_or_404(Product, slug=self.request.data.get('product_slug'))
 
         if Wishlist.objects.filter(user=user, product=product).exists():
             raise ValidationError({"error": "This product is already in your wishlist."})
 
         serializer.save(user=user, product=product)
 
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        return Response(
-            {"message": "Item added to wishlist.", "wishlist_item": response.data},
-            status=status.HTTP_201_CREATED
-        )
-
 
 class WishlistDeleteView(AuthenticatedView, DestroyAPIView):
     serializer_class = WishlistSerializer
-    queryset = Wishlist.objects.all()
 
     def get_object(self):
-        product = get_object_or_404(Product, slug=self.kwargs['slug'])
+        """يجلب عنصر الـ Wishlist للمستخدم بناءً على `product_slug`."""
+        product = get_object_or_404(Product, slug=self.kwargs['product_slug'])
         return get_object_or_404(Wishlist, user=self.request.user, product=product)
 
-    def destroy(self, request, *args, **kwargs):
-        wishlist_item = self.get_object()
-        self.perform_destroy(wishlist_item)
-        return Response({"message": "Item removed from wishlist."}, status=status.HTTP_200_OK)
-
+    def delete(self, request, *args, **kwargs):
+        """يحذف العنصر من Wishlist ويعيد رسالة نجاح."""
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "Item removed from wishlist"}, status=status.HTTP_204_NO_CONTENT)
 
 class CartListCreateView(AuthenticatedView, generics.ListCreateAPIView):
     serializer_class = CartSerializer
 
     def get_queryset(self):
+        """إرجاع جميع المنتجات التي تمت إضافتها في `Cart` بواسطة المستخدم الحالي."""
         return Cart.objects.filter(user=self.request.user)
 
-    def perform_create(self, serializer):
-        user = self.request.user
-        product_slug = self.request.data.get('product')
+    def create(self, request, *args, **kwargs):
+        """إضافة منتج إلى `Cart` أو تحديث الكمية إذا كان موجودًا بالفعل."""
+        user = request.user
+        product_slug = request.data.get('product_slug')
+
+        # التحقق من وجود `product_slug` في الطلب
+        if not product_slug:
+            return Response({"error": "Product slug is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # جلب المنتج أو إرجاع خطأ 404 إذا لم يكن موجودًا
         product = get_object_or_404(Product, slug=product_slug)
 
-        cart_item = Cart.objects.filter(user=user, product=product).first()
+        # التحقق من المخزون قبل الإضافة إلى السلة
+        cart_item, created = Cart.objects.get_or_create(user=user, product=product, defaults={'quantity': 1})
 
-        if cart_item:
+        if not created:
+            if cart_item.quantity >= product.quantity:
+                return Response(
+                    {"error": f"Only {product.quantity} items available in stock."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
             cart_item.quantity += 1
             cart_item.save()
-            raise ValidationError({"message": "Quantity updated.", "cart_item": CartSerializer(cart_item).data})
+            return Response(
+                {"message": "Quantity updated.", "cart_item": CartSerializer(cart_item).data},
+                status=status.HTTP_200_OK
+            )
 
-        serializer.save(user=user, product=product)
-
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
+        serializer = self.get_serializer(cart_item)
         return Response(
-            {"message": "Item added to cart.", "cart_item": response.data},
+            {"message": "Product added to cart.", "cart_item": serializer.data},
             status=status.HTTP_201_CREATED
         )
 
@@ -117,10 +118,12 @@ class CartUpdateDeleteView(AuthenticatedView, UpdateAPIView, DestroyAPIView):
     serializer_class = CartSerializer
 
     def get_object(self):
-        product = get_object_or_404(Product, slug=self.kwargs['slug'])
+        """استرجاع العنصر المطلوب تعديله أو حذفه من `Cart`"""
+        product = get_object_or_404(Product, slug=self.kwargs['product_slug'])
         return get_object_or_404(Cart, user=self.request.user, product=product)
 
     def update(self, request, *args, **kwargs):
+        """تقليل الكمية بمقدار 1 أو حذف العنصر إذا كانت الكمية 1."""
         cart_item = self.get_object()
 
         if cart_item.quantity > 1:
@@ -130,18 +133,13 @@ class CartUpdateDeleteView(AuthenticatedView, UpdateAPIView, DestroyAPIView):
                 {"message": "Item quantity reduced by 1.", "cart_item": CartSerializer(cart_item).data},
                 status=status.HTTP_200_OK
             )
+        
 
-        return Response(
-            {"error": "Cannot reduce quantity below 1. Use DELETE API instead."},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-    def destroy(self, request, *args, **kwargs):
-        cart_item = self.get_object()
+        # حذف العنصر مباشرة بدلاً من رفض التعديل
         cart_item.delete()
         return Response(
-            {"message": "Item removed from cart."},
-            status=status.HTTP_200_OK
+            {"message": "Item removed from cart as quantity reached 0."},
+            status=status.HTTP_204_NO_CONTENT
         )
 
 
@@ -154,20 +152,14 @@ class CheckoutView(AuthenticatedView, generics.CreateAPIView):
         email = request.data.get('email')
         address = request.data.get('address')
 
-        if not (phone and email and address):
+        if not all([phone, email, address]):
             raise ValidationError({"error": "Phone, email, and address are required."})
 
         cart_items = Cart.objects.filter(user=user)
-
         if not cart_items.exists():
             raise ValidationError({"error": "Cart is empty. Add items before checkout."})
 
-        order_data = {
-            "user": user.id,
-            "phone": phone,
-            "email": email,
-            "address": address
-        }
+        order_data = {"user": user.id, "phone": phone, "email": email, "address": address}
 
         with transaction.atomic():
             serializer = self.get_serializer(data=order_data, context={'request': request})
