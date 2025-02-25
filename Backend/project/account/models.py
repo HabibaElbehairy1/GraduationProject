@@ -6,8 +6,9 @@ from django.conf import settings
 # from project import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator, MaxLengthValidator
-
+import uuid
 class User(AbstractUser):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     email = models.EmailField(unique=True)
     date_of_birth = models.DateField(null=True, blank=True)
     phone_number = models.CharField(
@@ -28,6 +29,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 class UserProfile(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='userprofile')
     image = models.ImageField(upload_to='profile_images/', default='profile_images/default.jpg', null=True, blank=True)
     bio = models.TextField(null=True, blank=True) 
@@ -54,6 +56,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 class UserOTP(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='otp')
     otp = models.CharField(max_length=6)  # زيادة طول OTP إلى 6 أحرف
     created_at = models.DateTimeField(auto_now_add=True)
