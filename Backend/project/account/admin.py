@@ -13,3 +13,10 @@ class UserAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
     list_display = ('user','image')
 
+
+
+admin.site.site_header = "My Shop Admin"
+admin.site.site_title = "My Shop Portal"
+admin.site.index_title = "Welcome to My Shop Dashboard"
+
+
