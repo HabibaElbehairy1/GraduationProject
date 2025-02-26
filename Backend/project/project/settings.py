@@ -33,7 +33,13 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    'unfold',
+    # 'unfold',
+    # 'jet',  # Add this line before 'django.contrib.admin'
+    # 'jazzmin',  # Add this line before 'django.contrib.admin'
+    # 'colorfield',  # Required dependency
+    # 'admin_interface',  # Custom admin themes
+    # 'grappelli',  # Add this line before 'django.contrib.admin'
+    'material',  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
