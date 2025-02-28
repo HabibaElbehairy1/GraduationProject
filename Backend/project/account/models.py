@@ -36,6 +36,7 @@ class UserProfile(models.Model):
     bio = models.TextField(null=True, blank=True) 
     date_of_birth = models.DateField(null=True, blank=True)
     phone_number = models.CharField(
+        max_length= 12,
         unique=True,
         null=False,
         blank=False,
