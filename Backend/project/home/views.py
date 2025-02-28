@@ -4,16 +4,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import ClintReview
 from .serializers import  ReviewSerializer
-from rest_framework import generics, permissions
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
+from rest_framework import generics
 
-
-class ReviewListCreateView(generics.ListCreateAPIView):
+from .permissions import IsAuthenticatedWithJWT
+class ReviewListCreateView(IsAuthenticatedWithJWT,generics.ListCreateAPIView):
     queryset = ClintReview.objects.all()
     serializer_class = ReviewSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)  # تعيين المستخدم تلقائيًا
@@ -28,6 +24,7 @@ from django.conf import settings
 from .serializers import ContactSerializer
 
 class ContactUsView(APIView):
+    
     def post(self, request):
         serializer = ContactSerializer(data=request.data)
         if serializer.is_valid():

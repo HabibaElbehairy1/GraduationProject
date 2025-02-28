@@ -10,15 +10,12 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from .permissions import IsAuthenticatedWithJWT
 
-class PostViewSet(viewsets.ModelViewSet):
+class PostViewSet(IsAuthenticatedWithJWT,viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = 'id'
-
-    # Set default permissions to authenticated-only
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
 
 
     def get_permissions(self):
@@ -42,12 +39,9 @@ class PostViewSet(viewsets.ModelViewSet):
 
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-class CommentViewSet(viewsets.ModelViewSet):
+class CommentViewSet(IsAuthenticatedWithJWT,viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-        # Set default permissions to authenticated-only
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
         if post_id:
