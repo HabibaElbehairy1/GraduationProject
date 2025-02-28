@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ["*"]
 
 
 
-# Application definition
 
 INSTALLED_APPS = [
     # 'unfold',
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'shop.apps.ShopConfig',
     'rest_framework.authtoken',
     'home.apps.HomeConfig',
@@ -57,6 +57,20 @@ INSTALLED_APPS = [
     'community',
 
 ]
+
+
+# Application definition
+MATERIAL_ADMIN_SITE = {
+    "NAVBAR_BACKGROUND_COLOR": "#000000",  # Black navbar
+    "NAVBAR_TEXT_COLOR": "#FFFFFF",  # White text
+    "NAVBAR_TAB_BACKGROUND_COLOR": "#1a1a1a",
+    "NAVBAR_TAB_TEXT_COLOR": "#FFFFFF",
+    "PRIMARY_COLOR": "#000000",  # Black primary color
+    "SECONDARY_COLOR": "#333333",  # Dark grey secondary color
+}
+
+# Material Admin Theme settings
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -102,26 +116,26 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'graduation_project',  
-#         'USER': 'postgres', 
-#         'PASSWORD': '2002',  
-#         'HOST': 'localhost',  
-#         'PORT': '5432',  
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
-        'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
-        'PASSWORD': 'grovana123',  # Your MySQL password
-        'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
-        'PORT': '3306',  # Default MySQL port
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'graduation_project',  
+        'USER': 'postgres', 
+        'PASSWORD': '2002',  
+        'HOST': 'localhost',  
+        'PORT': '5432',  
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'HabibaElbehairy$graduation_project',  # Use your database name (including the prefix)
+#         'USER': 'HabibaElbehairy',  # Your PythonAnywhere username
+#         'PASSWORD': 'grovana123',  # Your MySQL password
+#         'HOST': 'HabibaElbehairy.mysql.pythonanywhere-services.com',  # Database host
+#         'PORT': '3306',  # Default MySQL port
+#     }
+# }
 
 # Password hashing settings AUTHENTICATION
 REST_FRAMEWORK = {
@@ -130,14 +144,17 @@ REST_FRAMEWORK = {
         
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
    
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 # Password validation settings AUTHENTICATION
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'BLACKLIST_AFTER_ROTATION': True,
     "AUTH_HEADER_TYPES": ('Bearer',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),

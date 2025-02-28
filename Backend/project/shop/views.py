@@ -11,14 +11,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Cart, Order, Product, Review, Wishlist
 from .serializers import CartSerializer, OrderSerializer, ProductSerializer, ReviewSerializer, WishlistSerializer
 from .filters import ProductsFilter  
-
+from .permissions import IsAuthenticatedWithJWT
 # Base View to enforce authentication
-class AuthenticatedView:
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
 
-
-class ProductViewSet(AuthenticatedView, viewsets.ModelViewSet):
+class ProductViewSet(IsAuthenticatedWithJWT, viewsets.ModelViewSet):
     """ViewSet to manage products"""
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -27,7 +23,7 @@ class ProductViewSet(AuthenticatedView, viewsets.ModelViewSet):
     filterset_class = ProductsFilter  
 
 
-class ReviewCreateView(AuthenticatedView, generics.CreateAPIView):
+class ReviewCreateView(IsAuthenticatedWithJWT, generics.CreateAPIView):
     serializer_class = ReviewSerializer
     def perform_create(self, serializer):
         product = get_object_or_404(Product, slug=self.kwargs['product_slug'])
@@ -35,13 +31,13 @@ class ReviewCreateView(AuthenticatedView, generics.CreateAPIView):
         product.update_rating()
 
 
-class ProductDetailView(AuthenticatedView, RetrieveAPIView):
+class ProductDetailView(IsAuthenticatedWithJWT, RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'slug'
 
 
-class WishlistListCreateView(AuthenticatedView, generics.ListCreateAPIView):
+class WishlistListCreateView(IsAuthenticatedWithJWT, generics.ListCreateAPIView):
     serializer_class = WishlistSerializer
 
     def get_queryset(self):
@@ -57,7 +53,7 @@ class WishlistListCreateView(AuthenticatedView, generics.ListCreateAPIView):
         serializer.save(user=user, product=product)
 
 
-class WishlistDeleteView(AuthenticatedView, DestroyAPIView):
+class WishlistDeleteView(IsAuthenticatedWithJWT, DestroyAPIView):
     serializer_class = WishlistSerializer
 
     def get_object(self):
@@ -71,7 +67,7 @@ class WishlistDeleteView(AuthenticatedView, DestroyAPIView):
         self.perform_destroy(instance)
         return Response({"message": "Item removed from wishlist"}, status=status.HTTP_204_NO_CONTENT)
 
-class CartListCreateView(AuthenticatedView, generics.ListCreateAPIView):
+class CartListCreateView(IsAuthenticatedWithJWT, generics.ListCreateAPIView):
     serializer_class = CartSerializer
 
     def get_queryset(self):
@@ -114,7 +110,7 @@ class CartListCreateView(AuthenticatedView, generics.ListCreateAPIView):
         )
 
 
-class CartUpdateDeleteView(AuthenticatedView, UpdateAPIView, DestroyAPIView):
+class CartUpdateDeleteView(IsAuthenticatedWithJWT, UpdateAPIView, DestroyAPIView):
     serializer_class = CartSerializer
 
     def get_object(self):
@@ -143,7 +139,7 @@ class CartUpdateDeleteView(AuthenticatedView, UpdateAPIView, DestroyAPIView):
         )
 
 
-class CheckoutView(AuthenticatedView, generics.CreateAPIView):
+class CheckoutView(IsAuthenticatedWithJWT, generics.CreateAPIView):
     serializer_class = OrderSerializer
 
     def create(self, request, *args, **kwargs):
@@ -172,7 +168,7 @@ class CheckoutView(AuthenticatedView, generics.CreateAPIView):
         )
 
 
-class OrderListView(AuthenticatedView, generics.ListAPIView):
+class OrderListView(IsAuthenticatedWithJWT, generics.ListAPIView):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
