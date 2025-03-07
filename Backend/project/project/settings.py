@@ -32,13 +32,13 @@ ALLOWED_HOSTS = ["*"]
 
 
 INSTALLED_APPS = [
-    # 'unfold',
+    'unfold',
     # 'jet',  # Add this line before 'django.contrib.admin'
     # 'jazzmin',  # Add this line before 'django.contrib.admin'
     # 'colorfield',  # Required dependency
     # 'admin_interface',  # Custom admin themes
-    # 'grappelli',  # Add this line before 'django.contrib.admin'
-    'material',  
+    # 'material',  
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -202,10 +202,19 @@ import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Add this line
+import os
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Used for collectstatic
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+STATIC_URL = '/static/'
+
+# Keep your development static files (like your own CSS, JS, images)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+# Store collected static files separately (used for production)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

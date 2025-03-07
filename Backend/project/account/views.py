@@ -18,11 +18,14 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes,authentication_classes
 from rest_framework.permissions import IsAuthenticated ,AllowAny
 from .models import UserOTP, UserProfile
 from .serializers import UserSerializer, UserOTPSerializer
 from .permissions import IsAuthenticatedWithJWT
+
+from rest_framework.permissions import AllowAny
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 
 
@@ -134,6 +137,7 @@ class GetUserView(IsAuthenticatedWithJWT,generics.RetrieveDestroyAPIView):
             "date_of_birth": profile.date_of_birth,
             "gender": profile.gender,
             "phone_number": profile.phone_number,
+            "username": user.username,
             "image": image_url
         }
 
@@ -178,7 +182,7 @@ class UpdateUserView(IsAuthenticatedWithJWT,UpdateAPIView):
         user.first_name = data.get('first_name', user.first_name)
         user.last_name = data.get('last_name', user.last_name)
         user.email = data.get('email', user.email)
-        user.username = data.get('email', user.username)
+        user.username = data.get('username', user.username)
 
         if data.get('password'):
             user.set_password(data['password'])
@@ -250,6 +254,8 @@ class ChangePasswordView(IsAuthenticatedWithJWT,UpdateAPIView):
 
 
 @api_view(['POST'])
+@authentication_classes([])  # Disable authentication for this view
+@permission_classes([AllowAny])  # Allow public access
 def get_otp(request):
     email = request.data.get('email')
     if not email:
@@ -296,6 +302,8 @@ MAX_ATTEMPTS = 3  # Maximum number of attempts
 BLOCK_DURATION = timedelta(minutes=5)  # Block duration (5 minutes)
 
 @api_view(['POST'])
+@authentication_classes([])  # Disable authentication for this view
+@permission_classes([AllowAny])  # Allow public access
 def verify_otp(request):
     email = request.data.get('email')
     otp = request.data.get('otp')
@@ -349,6 +357,8 @@ def verify_otp(request):
 
 
 @api_view(['POST'])
+@authentication_classes([])  # Disable authentication for this view
+@permission_classes([AllowAny])  # Allow public access
 def reset_password(request):
     # Extract data from the request
     email = request.data.get('email')
