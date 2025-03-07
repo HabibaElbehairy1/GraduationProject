@@ -96,11 +96,13 @@ class CartSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name', read_only=True)
     product_slug = serializers.SlugField(source='product.slug', read_only=True)
+    product_image = serializers.ImageField(source='product.image', read_only=True)
+
 
     class Meta:
         model = OrderItem
-        fields = ['order', 'product', 'product_name', 'product_slug', 'quantity', 'price']
-        read_only_fields = ['product_name', 'product_slug']
+        fields = ['order', 'product', 'product_name', 'product_slug','product_image', 'quantity', 'price']
+        read_only_fields = ['product_name', 'product_slug','product_image']
 
 
 class OrderSerializer(serializers.ModelSerializer):
