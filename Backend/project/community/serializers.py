@@ -12,15 +12,15 @@ class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)  # Nested user details
     class Meta:
         model = Comment
-        fields = ['user','comment', 'created_at', 'updated_at']
+        fields = ['user','id','comment', 'created_at', 'updated_at']
         read_only_fields = ['user']
 
 class PostSerializer(serializers.ModelSerializer):
-    comment = CommentSerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)  # Nested user details   
     class Meta:
         model = Post
-        fields = ['post_name' ,'user', 'content', 'image', 'created_at', 'updated_at', 'comment']
+        fields = ['post_name' ,'id','user', 'content', 'image', 'comments' ,'created_at', 'updated_at']
         read_only_fields = ['user']
 
 

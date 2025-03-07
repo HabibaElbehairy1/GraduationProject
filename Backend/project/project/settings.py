@@ -30,10 +30,15 @@ ALLOWED_HOSTS = ["*"]
 
 
 
-# Application definition
 
 INSTALLED_APPS = [
     'unfold',
+    # 'jet',  # Add this line before 'django.contrib.admin'
+    # 'jazzmin',  # Add this line before 'django.contrib.admin'
+    # 'colorfield',  # Required dependency
+    # 'admin_interface',  # Custom admin themes
+    # 'material',  
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'shop.apps.ShopConfig',
     'rest_framework.authtoken',
     'home.apps.HomeConfig',
@@ -51,6 +57,20 @@ INSTALLED_APPS = [
     'community',
 
 ]
+
+
+# Application definition
+MATERIAL_ADMIN_SITE = {
+    "NAVBAR_BACKGROUND_COLOR": "#000000",  # Black navbar
+    "NAVBAR_TEXT_COLOR": "#FFFFFF",  # White text
+    "NAVBAR_TAB_BACKGROUND_COLOR": "#1a1a1a",
+    "NAVBAR_TAB_TEXT_COLOR": "#FFFFFF",
+    "PRIMARY_COLOR": "#000000",  # Black primary color
+    "SECONDARY_COLOR": "#333333",  # Dark grey secondary color
+}
+
+# Material Admin Theme settings
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,14 +144,17 @@ REST_FRAMEWORK = {
         
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
    
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 # Password validation settings AUTHENTICATION
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'BLACKLIST_AFTER_ROTATION': True,
     "AUTH_HEADER_TYPES": ('Bearer',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
@@ -179,10 +202,19 @@ import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Add this line
+import os
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Used for collectstatic
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+STATIC_URL = '/static/'
+
+# Keep your development static files (like your own CSS, JS, images)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+# Store collected static files separately (used for production)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

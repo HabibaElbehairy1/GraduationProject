@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token  # ✅ Import this
+from rest_framework_simplejwt.tokens import RefreshToken
 logger = logging.getLogger(__name__)
 User = get_user_model()
 from rest_framework.views import APIView
@@ -17,61 +18,58 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes,authentication_classes
+from rest_framework.permissions import IsAuthenticated ,AllowAny
 from .models import UserOTP, UserProfile
 from .serializers import UserSerializer, UserOTPSerializer
+from .permissions import IsAuthenticatedWithJWT
+
+from rest_framework.permissions import AllowAny
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 
 
 class RegisterView(generics.ListCreateAPIView):
     queryset = User.objects.all()
-    authentication_classes = [TokenAuthentication]
+    permission_classes = [AllowAny]
     serializer_class = UserSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        
 
         # Create or retrieve token
-        token, _ = Token.objects.get_or_create(user=user)
-
+        refresh = RefreshToken.for_user(user)
         # Automatically create a user profile
         UserProfile.objects.create(
             user=user,
             date_of_birth=request.data.get('date_of_birth'),
             gender=request.data.get('gender'),
             phone_number=request.data.get('phone_number'),
-            image="profile_images/default.jpg"  # Default profile image
+            image="profile_images/default.jpg" , # Default profile image
+
         )
 
         return Response(
             {
                 'message': 'User created successfully',
-                'token': token.key,
+                'refresh':str(refresh),
+                'access':str(refresh.access_token),
                 'user': serializer.data,
                 'status': status.HTTP_201_CREATED
             },
             status=status.HTTP_201_CREATED
         )
     def list(self, request, *args, **kwargs):
+        # تأكد أن المستخدم مسجل دخول باستخدام JWT
+        if not request.user.is_authenticated:
+            return Response({'error': 'Invalid or expired token'}, status=status.HTTP_401_UNAUTHORIZED)
 
-        token_key = self.request.headers.get('Authorization', '').replace('Token ', '')
-
-        try:
-            # Get the user associated with the token
-            token = Token.objects.get(key=token_key)
-            user = token.user
-
-            # Serialize and return the user's data
-            serializer = self.get_serializer(user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except Token.DoesNotExist:
-            return Response({'error': 'Invalid or missing token'}, status=status.HTTP_401_UNAUTHORIZED)
+        # تسلسل بيانات المستخدم وإرجاعها
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class LoginView(APIView):
@@ -96,12 +94,13 @@ class LoginView(APIView):
             return Response({'message': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
 
         # الحصول على أو إنشاء التوكن
-        token, _ = Token.objects.get_or_create(user=user)
+        refresh = RefreshToken.for_user(user)
 
         return Response(
             {
                 'message': 'Login successful',
-                'token': token.key,
+                'refresh':str(refresh),
+                'access':str(refresh.access_token),
                 'user': {
                     'id': user.id,
                     'first_name': user.first_name,
@@ -113,10 +112,8 @@ class LoginView(APIView):
         )
 
 
-class GetUserView(generics.RetrieveDestroyAPIView):
+class GetUserView(IsAuthenticatedWithJWT,generics.RetrieveDestroyAPIView):
     queryset = User.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
 
     def retrieve(self, request, *args, **kwargs):
@@ -140,34 +137,27 @@ class GetUserView(generics.RetrieveDestroyAPIView):
             "date_of_birth": profile.date_of_birth,
             "gender": profile.gender,
             "phone_number": profile.phone_number,
+            "username": user.username,
             "image": image_url
         }
 
         return Response(user_data, status=status.HTTP_200_OK)
     def destroy(self, request, *args, **kwargs):
-        token_key = request.headers.get('Authorization', '').replace('Token ', '')
+            user = request.user  # استخراج المستخدم المسجل دخوله من JWT
 
-        try:
-            # البحث عن التوكن في قاعدة البيانات
-            token = Token.objects.get(key=token_key)
-            user = token.user  # المستخدم المرتبط بالتوكن
-
-            # حذف المستخدم
-            self.perform_destroy(user)
-            return Response({'message': 'User deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
-
-        except Token.DoesNotExist:
-            return Response({'error': 'Invalid or missing token'}, status=status.HTTP_401_UNAUTHORIZED)
+            if user.is_authenticated:
+                self.perform_destroy(user)  # حذف المستخدم
+                return Response({'message': 'User deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+            
+            return Response({'error': 'Invalid or expired token'}, status=status.HTTP_401_UNAUTHORIZED)
 
 from rest_framework.generics import UpdateAPIView
 
 
 
-class UpdateUserView(UpdateAPIView):
+class UpdateUserView(IsAuthenticatedWithJWT,UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
 
     def update(self, request, *args, **kwargs):
         user = request.user
@@ -192,7 +182,7 @@ class UpdateUserView(UpdateAPIView):
         user.first_name = data.get('first_name', user.first_name)
         user.last_name = data.get('last_name', user.last_name)
         user.email = data.get('email', user.email)
-        user.username = data.get('email', user.username)
+        user.username = data.get('username', user.username)
 
         if data.get('password'):
             user.set_password(data['password'])
@@ -221,11 +211,8 @@ class UpdateUserView(UpdateAPIView):
 
 
 
-class ChangePasswordView(UpdateAPIView):
+class ChangePasswordView(IsAuthenticatedWithJWT,UpdateAPIView):
     queryset = User.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def update(self, request, *args, **kwargs):
         user = request.user
         data = request.data
@@ -267,6 +254,8 @@ class ChangePasswordView(UpdateAPIView):
 
 
 @api_view(['POST'])
+@authentication_classes([])  # Disable authentication for this view
+@permission_classes([AllowAny])  # Allow public access
 def get_otp(request):
     email = request.data.get('email')
     if not email:
@@ -313,6 +302,8 @@ MAX_ATTEMPTS = 3  # Maximum number of attempts
 BLOCK_DURATION = timedelta(minutes=5)  # Block duration (5 minutes)
 
 @api_view(['POST'])
+@authentication_classes([])  # Disable authentication for this view
+@permission_classes([AllowAny])  # Allow public access
 def verify_otp(request):
     email = request.data.get('email')
     otp = request.data.get('otp')
@@ -366,6 +357,8 @@ def verify_otp(request):
 
 
 @api_view(['POST'])
+@authentication_classes([])  # Disable authentication for this view
+@permission_classes([AllowAny])  # Allow public access
 def reset_password(request):
     # Extract data from the request
     email = request.data.get('email')
