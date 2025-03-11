@@ -6,14 +6,23 @@ from .models import ClintReview
 from .serializers import  ReviewSerializer
 from rest_framework import generics
 
+from rest_framework import generics, permissions
 from .permissions import IsAuthenticatedWithJWT
-class ReviewListCreateView(IsAuthenticatedWithJWT,generics.ListCreateAPIView):
+from .models import ClintReview
+from .serializers import ReviewSerializer
+
+class ReviewListCreateView(generics.ListCreateAPIView):
     queryset = ClintReview.objects.all()
     serializer_class = ReviewSerializer
 
+    def get_permissions(self):
+        """تحديد صلاحيات الوصول حسب نوع الطلب"""
+        if self.request.method == 'POST':
+            return [IsAuthenticatedWithJWT()]  # يتطلب المصادقة لـ POST
+        return [permissions.AllowAny()]  # متاح للجميع لـ GET
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)  # تعيين المستخدم تلقائيًا
-
 
 
 from rest_framework.views import APIView
