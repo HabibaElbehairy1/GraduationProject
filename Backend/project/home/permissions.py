@@ -13,11 +13,18 @@ class IsAuthenticatedWithJWT(BasePermission):
         """
         auth = JWTAuthentication()
         try:
-            # استخراج بيانات المستخدم من التوكن
-            user, _ = auth.authenticate(request)
+            # محاولة المصادقة باستخدام JWT
+            auth_result = auth.authenticate(request)
+
+            if auth_result is None:  # التحقق من أن المصادقة لم تفشل
+                return False
+            
+            user, token = auth_result  # تفكيك البيانات إذا كانت صالحة
+
             if user and user.is_authenticated:
                 request.user = user  # تعيين المستخدم في الطلب
                 return True
+
         except AuthenticationFailed:
             return False
 
