@@ -196,7 +196,7 @@ class UpdateUserView(IsAuthenticatedWithJWT,UpdateAPIView):
         user.phone_number = data.get('phone_number', profile.phone_number)  # تأكد من تحديث رقم الهاتف
         
         if 'image' in request.FILES:
-            user.image = request.FILES['image']
+            profile.image = request.FILES['image']
 
         profile.save()  # تأكد من حفظ الملف الشخصي بعد التعديلات
 
