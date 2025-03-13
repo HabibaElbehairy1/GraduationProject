@@ -1,7 +1,5 @@
 import django_filters
 from rest_framework import viewsets, generics, status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError

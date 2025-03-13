@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'account',
     'corsheaders',
     'community',
+    'ai',
 
 ]
 

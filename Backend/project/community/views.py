@@ -4,12 +4,9 @@ from rest_framework.response import Response
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.decorators import action
-
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
-
-from rest_framework.permissions import IsAuthenticated, AllowAny
 from .permissions import IsAuthenticatedWithJWT
 
 class PostViewSet(IsAuthenticatedWithJWT,viewsets.ModelViewSet):
@@ -18,14 +15,6 @@ class PostViewSet(IsAuthenticatedWithJWT,viewsets.ModelViewSet):
     lookup_field = 'id'
 
 
-    def get_permissions(self):
-        """
-        Allow anyone to list or retrieve posts. Other ac
-        tions require authentication.
-        """
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        return [IsAuthenticated()]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -49,14 +38,7 @@ class CommentViewSet(IsAuthenticatedWithJWT,viewsets.ModelViewSet):
         return Comment.objects.all()
 
 
-    def get_permissions(self):
-        """
-        Allow anyone to list or retrieve comments.
-        Only authenticated users can create, update, or delete comments.
-        """
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        return [IsAuthenticated()]
+
 
     def perform_create(self, serializer):
         post_id = self.kwargs['post_id']
