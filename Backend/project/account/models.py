@@ -64,7 +64,7 @@ class UserOTP(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)  # إضافة حقل للتحقق من صحة OTP
     attempts = models.IntegerField(default=0)  # عدد المحاولات
-    last_attempt_time = models.DateTimeField(auto_now=True) 
+    last_attempt_time = models.DateTimeField(default=timezone.now)
 
     def is_expired(self):
         # انتهاء صلاحية OTP بعد 5 دقائق

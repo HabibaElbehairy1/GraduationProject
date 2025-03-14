@@ -297,6 +297,8 @@ def get_otp(request):
 
 
 from datetime import timedelta, datetime
+from django.utils import timezone
+
 
 MAX_ATTEMPTS = 3  # Maximum number of attempts
 BLOCK_DURATION = timedelta(minutes=5)  # Block duration (5 minutes)
@@ -320,7 +322,7 @@ def verify_otp(request):
 
         # Check the number of attempts
         if user_otp.attempts >= MAX_ATTEMPTS:
-            time_since_last_attempt = datetime.now() - user_otp.last_attempt_time
+            time_since_last_attempt = timezone.now() - user_otp.last_attempt_time
 
             # Check if the block is still active
             if time_since_last_attempt < BLOCK_DURATION:
@@ -335,6 +337,7 @@ def verify_otp(request):
         # Verify OTP
         if user_otp.otp != otp:
             user_otp.attempts += 1  # Increase attempt count
+            user_otp.last_attempt_time = timezone.now()  # تحديث التوقيت
             user_otp.save()
             return Response(
                 {'message': 'Invalid OTP', 'status': status.HTTP_400_BAD_REQUEST},
