@@ -183,7 +183,9 @@ class UpdateUserView(IsAuthenticatedWithJWT,UpdateAPIView):
         user.last_name = data.get('last_name', user.last_name)
         user.email = data.get('email', user.email)
         user.username = data.get('username', user.username)
-
+        user.date_of_birth = data.get('date_of_birth', user.date_of_birth)
+        user.gender = data.get('gender', user.gender)
+        user.phone_number = data.get('phone_number', user.phone_number)  # تأكد من تحديث رقم الهاتف
         if data.get('password'):
             user.set_password(data['password'])
 
@@ -191,9 +193,7 @@ class UpdateUserView(IsAuthenticatedWithJWT,UpdateAPIView):
 
         # Update profile fields
         profile, created = UserProfile.objects.get_or_create(user=user)
-        user.date_of_birth = data.get('date_of_birth', profile.date_of_birth)
-        user.gender = data.get('gender', profile.gender)
-        user.phone_number = data.get('phone_number', profile.phone_number)  # تأكد من تحديث رقم الهاتف
+       
         
         if 'image' in request.FILES:
             profile.image = request.FILES['image']
