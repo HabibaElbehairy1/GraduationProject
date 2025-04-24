@@ -6,8 +6,15 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Install system dependencies
-RUN apt-get update \
-    && apt-get install -y gcc default-libmysqlclient-dev libpq-dev build-essential
+RUN apt-get update && apt-get install -y \
+    gcc \
+    default-libmysqlclient-dev \
+    libpq-dev \
+    python3-dev \
+    pkg-config \
+    build-essential \
+    mariadb-client \
+    libmariadb-dev
 
 # Set work directory
 WORKDIR /app
