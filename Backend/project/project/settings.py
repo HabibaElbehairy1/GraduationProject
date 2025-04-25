@@ -130,7 +130,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'grovanae',             # اسم قاعدة البيانات اللي أنشأتها في RDS
+        'NAME': 'grovana',             # اسم قاعدة البيانات اللي أنشأتها في RDS
         'USER': 'grovana',         # اسم المستخدم في RDS
         'PASSWORD': 'grovana1234',     # كلمة السر
         'HOST': 'grovana.cha8yi6yse97.eu-north-1.rds.amazonaws.com',  # الـ endpoint من AWS RDS
