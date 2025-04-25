@@ -138,6 +138,7 @@ DATABASES = {
     }
 }
 
+
 # Password hashing settings AUTHENTICATION
 REST_FRAMEWORK = {
     
