@@ -135,6 +135,7 @@ DATABASES = {
         'PASSWORD': 'grovana1234',
         'HOST': 'grovana.cha8yi6yse97.eu-north-1.rds.amazonaws.com',
         'PORT': '5432',
+
     }
 }
 
