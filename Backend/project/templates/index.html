@@ -1,1636 +1,1335 @@
 {% load static %}
 
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Documentation</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    h2, h3 {
-      color: #007BFF;
-    }
-    .section {
-      margin-bottom: 30px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 15px;
-    }
-    code {
-      background: #f4f4f4;
-      padding: 10px;
-      display: block;
-      border-radius: 5px;
-      white-space: pre-wrap;
-      margin-top: 5px;
-    }
-    .postman-preview img {
-      width: 50%;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2 style="text-align: center;">API Documentation</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 20px;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2,
+      h3 {
+        color: #007bff;
+      }
+      .section {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+      }
+      code {
+        background: #f4f4f4;
+        padding: 10px;
+        display: block;
+        border-radius: 5px;
+        white-space: pre-wrap;
+        margin-top: 5px;
+      }
+      .postman-preview img {
+        width: 50%;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 style="text-align: center">API Documentation</h2>
 
-    <!-- Account APIs -->
-    <div class="section">
-        <h2 style="text-align: center;">Accounts</h2>
-      <h3>1. Register</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/register/</code>
-      <h4>🔹 Headers</h4>
-      <code>
-Content-Type: application/json
-      </code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "first_name": "John",
-  "last_name": "Doe",
-  "date_of_birth": "1990-01-01",
-  "username": "johndoe",
-  "email": "john.doe@example.com",
-  "password": "password123",
-  "confirm_password": "password123",
-  "phone_number": "1234567890",
-  "gender": "M"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "User created successfully",
-  "token": "exampletoken123",
-  "user": {
-    "first_name": "John",
-    "last_name": "Doe",
-    "date_of_birth": "1990-01-01",
-    "username": "johndoe",
-    "email": "john.doe@example.com",
-    "phone_number": "1234567890",
-    "gender": "M"
-  },
-  "status": 201
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/register.png' %}" alt="Postman Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>2. Login</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/login/</code>
-      <h4>🔹 Headers</h4>
-      <code>
-Content-Type: application/json
-      </code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "email": "john.doe@example.com",
-  "password": "password123"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Login successful",
-  "token": "exampletoken123",
-  "user": {
-    "id": "6b7efe4a-bac2-4d02-ae98-30cb259082a1",
-    "first_name": "John",
-    "last_name": "Doe",
-    "email": "john.doe@example.com"
-  }
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/login.png' %}" alt="Postman Login Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>3. Profile</h3>
-      <code>GET https://mohamednowar.pythonanywhere.com/api/profile/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "first_name": "John",
-  "last_name": "Doe",
-  "email": "john.doe@example.com",
-  "date_of_birth": "1990-01-01",
-  "gender": "M",
-  "phone_number": "1234567890",
-  "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/profile.png' %}" alt="Postman Profile Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>4. Update Profile</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/update/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "first_name": "John",
-  "phone_number": "0987654321",
-  "current_password": "password123"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Data updated successfully",
-  "user": {
-    "first_name": "John",
-    "last_name": "Doe",
-    "date_of_birth": "1990-01-01",
-    "username": "johndoe",
-    "email": "john.doe@example.com",
-    "phone_number": "0987654321",
-    "gender": "M",
-    "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-  }
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/update.png' %}" alt="Postman Update Profile Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>5. Change Password</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/change_password/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "current_password": "password123",
-  "new_password": "newpassword123",
-  "confirm_password": "newpassword123"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Password updated successfully",
-  "status": 200
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/update_password.png' %}" alt="Postman Change Password Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>6. Get OTP</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/get_otp/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "email": "john.doe@example.com"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "OTP sent to your email",
-  "status": 200
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/get_otp.png' %}" alt="Postman Get OTP Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>7. Verify OTP</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/verify_otp/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "email": "john.doe@example.com",
-  "otp": "123456"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "OTP verified successfully",
-  "status": 200
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/verify_otp.png' %}" alt="Postman Verify OTP Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>8. Reset Password</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/reset_password/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "email": "john.doe@example.com",
-  "new_password": "newpassword123"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Password reset successfully",
-  "status": 200
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/reset_password.png' %}" alt="Postman Reset Password Preview">
-      </div>
-    </div>
-
-    <h2 style="text-align: center;">Home</h2>
-    <div class="section">
-        <h3>9. Submit a Review</h3>
-        <code>POST https://mohamednowar.pythonanywhere.com/api/reviews/</code>
+      <!-- Account APIs -->
+      <div class="section">
+        <h2 style="text-align: center">Accounts</h2>
+        <h3>1. Register</h3>
+        <code>POST http://56.228.2.47:8000/api/register/</code>
         <h4>🔹 Headers</h4>
-        <code>
-  Content-Type: multipart/form-data
-        </code>
+        <code> Content-Type: application/json </code>
         <h4>📥 Request Body</h4>
         <code>
-  {
-    "review": "This is an example review.",
-    "image": "example_image.jpg"
-  }
+          { "first_name": "John", "last_name": "Doe", "date_of_birth":
+          "1990-01-01", "username": "johndoe", "email": "john.doe@example.com",
+          "password": "password123", "confirm_password": "password123",
+          "phone_number": "1234567890", "gender": "M" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "User created successfully", "token": "exampletoken123",
+          "user": { "first_name": "John", "last_name": "Doe", "date_of_birth":
+          "1990-01-01", "username": "johndoe", "email": "john.doe@example.com",
+          "phone_number": "1234567890", "gender": "M" }, "status": 201 }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img src="{% static 'images/register.png' %}" alt="Postman Preview" />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>2. Login</h3>
+        <code>POST http://56.228.2.47:8000/api/login/</code>
+        <h4>🔹 Headers</h4>
+        <code> Content-Type: application/json </code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "email": "john.doe@example.com", "password": "password123" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Login successful", "token": "exampletoken123", "user": {
+          "id": "6b7efe4a-bac2-4d02-ae98-30cb259082a1", "first_name": "John",
+          "last_name": "Doe", "email": "john.doe@example.com" } }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/login.png' %}"
+            alt="Postman Login Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>3. Profile</h3>
+        <code>GET http://56.228.2.47:8000/api/profile/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "first_name": "John", "last_name": "Doe", "email":
+          "john.doe@example.com", "date_of_birth": "1990-01-01", "gender": "M",
+          "phone_number": "1234567890", "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/profile.png' %}"
+            alt="Postman Profile Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>4. Update Profile</h3>
+        <code>POST http://56.228.2.47:8000/api/update/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "first_name": "John", "phone_number": "0987654321",
+          "current_password": "password123" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Data updated successfully", "user": { "first_name":
+          "John", "last_name": "Doe", "date_of_birth": "1990-01-01", "username":
+          "johndoe", "email": "john.doe@example.com", "phone_number":
+          "0987654321", "gender": "M", "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" } }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/update.png' %}"
+            alt="Postman Update Profile Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>5. Change Password</h3>
+        <code>POST http://56.228.2.47:8000/api/change_password/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "current_password": "password123", "new_password": "newpassword123",
+          "confirm_password": "newpassword123" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Password updated successfully", "status": 200 }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/update_password.png' %}"
+            alt="Postman Change Password Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>6. Get OTP</h3>
+        <code>POST http://56.228.2.47:8000/api/get_otp/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "email": "john.doe@example.com" } </code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "OTP sent to your email", "status": 200 } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/get_otp.png' %}"
+            alt="Postman Get OTP Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>7. Verify OTP</h3>
+        <code>POST http://56.228.2.47:8000/api/verify_otp/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "email": "john.doe@example.com", "otp": "123456" } </code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "OTP verified successfully", "status": 200 } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/verify_otp.png' %}"
+            alt="Postman Verify OTP Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>8. Reset Password</h3>
+        <code>POST http://56.228.2.47:8000/api/reset_password/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "email": "john.doe@example.com", "new_password": "newpassword123" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Password reset successfully", "status": 200 }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/reset_password.png' %}"
+            alt="Postman Reset Password Preview"
+          />
+        </div>
+      </div>
+
+      <h2 style="text-align: center">Home</h2>
+      <div class="section">
+        <h3>9. Submit a Review</h3>
+        <code>POST http://56.228.2.47:8000/api/reviews/</code>
+        <h4>🔹 Headers</h4>
+        <code> Content-Type: multipart/form-data </code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "review": "This is an example review.", "image": "example_image.jpg"
+          }
         </code>
         <h4>📤 Response Example (Success)</h4>
         <code>
-  {
-    "user_full_name": "Example User",
-    "review": "This is an example review.",
-    "date": "2025-02-22",
-    "image": "http://127.0.0.1:8000/media/ClintReview/example_image.jpg"
-  }
+          { "user_full_name": "Example User", "review": "This is an example
+          review.", "date": "2025-02-22", "image":
+          "http://127.0.0.1:8000/media/ClintReview/example_image.jpg" }
         </code>
         <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-          <img src="{% static 'images/send review.png' %}" alt="Postman Submit Review Preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/send review.png' %}"
+            alt="Postman Submit Review Preview"
+          />
         </div>
       </div>
 
       <div class="section">
         <h3>10. Get All Reviews</h3>
-        <code>GET https://mohamednowar.pythonanywhere.com/api/reviews/</code>
+        <code>GET http://56.228.2.47:8000/api/reviews/</code>
         <h4>📤 Response Example</h4>
         <code>
-  [
-    {
-      "user_full_name": "Example User 1",
-      "review": "This is an example review.",
-      "date": "2025-02-22",
-      "image": "http://127.0.0.1:8000/media/ClintReview/example_image_1.jpg"
-    },
-    {
-      "user_full_name": "Example User 2",
-      "review": "Another example review.",
-      "date": "2025-02-23",
-      "image": "http://127.0.0.1:8000/media/ClintReview/example_image_2.jpg"
-    }
-  ]
+          [ { "user_full_name": "Example User 1", "review": "This is an example
+          review.", "date": "2025-02-22", "image":
+          "http://127.0.0.1:8000/media/ClintReview/example_image_1.jpg" }, {
+          "user_full_name": "Example User 2", "review": "Another example
+          review.", "date": "2025-02-23", "image":
+          "http://127.0.0.1:8000/media/ClintReview/example_image_2.jpg" } ]
         </code>
         <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
+          <h3>🛠 Postman Example</h3>
 
-          <img src=".{% static 'images/get review.png' %}" alt="Postman Get Reviews Preview">
+          <img
+            src=".{% static 'images/get review.png' %}"
+            alt="Postman Get Reviews Preview"
+          />
         </div>
       </div>
-
 
       <div class="section">
         <h3>11. Contact Us</h3>
-        <code>POST https://mohamednowar.pythonanywhere.com/api/contact/</code>
+        <code>POST http://56.228.2.47:8000/api/contact/</code>
         <h4>🔹 Headers</h4>
-        <code>
-  Content-Type: application/json
-        </code>
+        <code> Content-Type: application/json </code>
         <h4>📥 Request Body</h4>
         <code>
-  {
-    "name": "Example Name",
-    "email": "example@example.com",
-    "phone": "1234567890",
-    "message": "This is an example message."
-  }
+          { "name": "Example Name", "email": "example@example.com", "phone":
+          "1234567890", "message": "This is an example message." }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "Email sent successfully" } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <div style="display: flex; gap: 10px">
+            <img
+              src="{% static 'images/contact.png' %}"
+              alt="Postman Contact Preview"
+            />
+            <img
+              src="{% static 'images/contact2.png' %}"
+              alt="Postman Contact Preview"
+            />
+          </div>
+        </div>
+      </div>
+
+      <h2 style="text-align: center">Shop</h2>
+      <div class="section">
+        <h3>12. Get Products</h3>
+        <code>GET http://56.228.2.47:8000/api/products/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          [ { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose
+          Plant", "slug": "rose-plant", "price": "25.00", "description":
+          "Beautiful rose plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, { "id":
+          "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Sunflower Seeds",
+          "slug": "sunflower-seeds", "price": "5.00", "description":
+          "High-quality sunflower seeds.", "care_guide": "Plant in sunny area.",
+          "image": "http://127.0.0.1:8000/media/products/sunflower.jpg",
+          "quantity": 50, "rating": "4.0", "category": "Seeds", "created_at":
+          "2025-02-21T04:11:00.045397Z" } ]
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/allproducts.png' %}"
+            alt="Postman Product Preview"
+          />
+        </div>
+        <h4>🔍 Filters</h4>
+        <code>
+          http://56.228.2.47:8000/api/products/?keyword=rose
+          http://56.228.2.47:8000/api/products/?category=Plants
+          http://56.228.2.47:8000/api/products/?maxPrice=30
+          http://56.228.2.47:8000/api/products/?minPrice=10
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <div style="display: flex; gap: 10px">
+            <img
+              src="{% static 'images/filter1.png' %}"
+              alt="Postman Get Products Preview"
+            />
+            <img
+              src="{% static 'images/filter2.png' %}"
+              alt="Postman Get Products Preview"
+            />
+          </div>
+          <div style="display: flex; gap: 10px">
+            <img
+              src="{% static 'images/filter3' %}.png"
+              alt="Postman Get Products Preview"
+            />
+            <img
+              src="{% static 'images/filter4.png' %}"
+              alt="Postman Get Products Preview"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>13. Product Details</h3>
+        <code>GET http://56.228.2.47:8000/api/products/rose-plant/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose Plant",
+          "slug": "rose-plant", "price": "25.00", "description": "Beautiful rose
+          plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/product details.png' %}"
+            alt="Postman Product Details Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>14. Rate Product</h3>
+        <code>POST http://56.228.2.47:8000/api/products/rose-plant/rate/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "rating": "5" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "product_slug": "rose-plant", "product": "Rose Plant", "rating":
+          "5.0", "created_at": "2025-02-21T19:52:00.437973Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/rate.png' %}"
+            alt="Postman Rate Product Preview"
+          />
+        </div>
+      </div>
+
+      <!-- Wishlist APIs -->
+      <div class="section">
+        <h3>15. Wishlist - Add Item</h3>
+        <code>POST http://56.228.2.47:8000/api/wishlist/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "product_slug": "rose-plant" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "product": { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "rating":
+          5.0, "name": "Strawberry Seeds", "slug": "test_1", "price": "123.00",
+          "description": "test", "care_guide": "test", "image":
+          "http://127.0.0.1:8000/media/products/default_WR73DfO.jpg",
+          "quantity": 1, "category": "Plants", "created_at":
+          "2025-02-25T22:14:12.873937Z" }, "added_at":
+          "2025-02-25T22:24:28.172221Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/add_wishlist.png' %}"
+            alt="Postman Wishlist Add Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>16. Wishlist - Get Items</h3>
+        <code>GET http://56.228.2.47:8000/api/wishlist/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          [ { "product": { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name":
+          "Rose Plant", "slug": "rose-plant", "price": "25.00", "description":
+          "Beautiful rose plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, "added_at":
+          "2025-02-21T19:58:52.875736Z" } ]
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/view_wishlist.png' %}"
+            alt="Postman Wishlist Get Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>17. Wishlist - Delete Item</h3>
+        <code>DELETE http://56.228.2.47:8000/api/wishlist/delete/rose-plant/</code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "Item removed from wishlist." } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/delete_wishlist.png' %}"
+            alt="Postman Wishlist Delete Preview"
+          />
+        </div>
+      </div>
+
+      <!-- Cart APIs -->
+      <div class="section">
+        <h3>18. Cart - Add Item</h3>
+        <code>POST http://56.228.2.47:8000/api/cart/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "product": "rose-plant" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Item added to cart.", "cart_item": { "product": { "id":
+          "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose Plant", "slug":
+          "rose-plant", "price": "25.00", "description": "Beautiful rose
+          plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, "quantity": 1, "added_at":
+          "2025-02-21T20:04:26.808868Z" } }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/add_cart.png' %}"
+            alt="Postman Cart Add Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>19. Cart - Get Items</h3>
+        <code>GET http://56.228.2.47:8000/api/cart/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          [ { "product": { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name":
+          "Rose Plant", "slug": "rose-plant", "price": "25.00", "description":
+          "Beautiful rose plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, "quantity": 2, "added_at":
+          "2025-02-21T20:04:26.808868Z" } ]
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/view_cart.png' %}"
+            alt="Postman Cart Get Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>20. Cart - Update Quantity (Reduce/Delete)</h3>
+        <code>POST http://56.228.2.47:8000/api/cart/reduce-delete/rose-plant/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Item quantity reduced by 1.", "cart_item": { "product":
+          { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose Plant",
+          "slug": "rose-plant", "price": "25.00", "description": "Beautiful rose
+          plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, "quantity": 1, "added_at":
+          "2025-02-21T20:04:26.808868Z" } }
+          <div class="postman-preview">
+            <h3>🛠 Postman Example</h3>
+            <img
+              src="{% static 'images/update_cart.png' %}"
+              alt="Postman Reset Password Preview"
+            />
+          </div>
+        </code>
+        <p>Or for complete deletion from cart:</p>
+        <code> { "message": "Item removed from cart." } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/delete_cart.png' %}"
+            alt="Postman Cart Update Preview"
+          />
+        </div>
+      </div>
+
+      <!-- Checkout & Orders -->
+      <div class="section">
+        <h3>21. Checkout</h3>
+        <code>POST http://56.228.2.47:8000/api/checkout/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "phone": "1234567890", "email": "john.doe@example.com", "address":
+          "123 Main St, City" }
         </code>
         <h4>📤 Response Example</h4>
         <code>
-  {
-    "message": "Email sent successfully"
-  }
+          { "message": "Order placed successfully!", "order": { "phone":
+          "1234567890", "email": "john.doe@example.com", "address": "123 Main
+          St, City", "items": [ { "order": 4, "product": 1, "product_name":
+          "Rose Plant", "product_slug": "rose-plant", "quantity": 1, "price":
+          "25.00" } ], "total_price": "25.00", "status": "Pending",
+          "created_at": "2025-02-21T20:40:16.380001Z" } }
         </code>
         <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
-            <div style="display: flex;gap: 10px;">
-
-          <img src="{% static 'images/contact.png' %}" alt="Postman Contact Preview">
-          <img src="{% static 'images/contact2.png' %}" alt="Postman Contact Preview">
-            </div>
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/ckeckout.png' %}"
+            alt="Postman Checkout Preview"
+          />
         </div>
       </div>
 
-
-
-      <h2 style="text-align: center;">Shop</h2>
-    <div class="section">
-      <h3>12. Get Products</h3>
-      <code>GET https://mohamednowar.pythonanywhere.com/api/products/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-[
-  {
-    "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-    "name": "Rose Plant",
-    "slug": "rose-plant",
-    "price": "25.00",
-    "description": "Beautiful rose plant.",
-    "care_guide": "Water daily.",
-    "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-    "quantity": 10,
-    "rating": "4.5",
-    "category": "Plants",
-    "created_at": "2025-02-21T04:10:38.236637Z"
-  },
-  {
-    "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-    "name": "Sunflower Seeds",
-    "slug": "sunflower-seeds",
-    "price": "5.00",
-    "description": "High-quality sunflower seeds.",
-    "care_guide": "Plant in sunny area.",
-    "image": "http://127.0.0.1:8000/media/products/sunflower.jpg",
-    "quantity": 50,
-    "rating": "4.0",
-    "category": "Seeds",
-    "created_at": "2025-02-21T04:11:00.045397Z"
-  }
-]
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/allproducts.png' %}" alt="Postman Product Preview">
-      </div>
-      <h4>🔍 Filters</h4>
-      <code>
-        https://mohamednowar.pythonanywhere.com/api/products/?keyword=rose
-        https://mohamednowar.pythonanywhere.com/api/products/?category=Plants
-        https://mohamednowar.pythonanywhere.com/api/products/?maxPrice=30
-        https://mohamednowar.pythonanywhere.com/api/products/?minPrice=10
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <div style="display: flex;gap: 10px;">
-        <img src="{% static 'images/filter1.png' %}" alt="Postman Get Products Preview">
-        <img src="{% static 'images/filter2.png' %}" alt="Postman Get Products Preview">
-        </div><div style="display: flex;gap: 10px;">
-        <img src="{% static 'images/filter3' %}.png" alt="Postman Get Products Preview">
-        <img src="{% static 'images/filter4.png' %}" alt="Postman Get Products Preview">
-    </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>13. Product Details</h3>
-      <code>GET https://mohamednowar.pythonanywhere.com/api/products/rose-plant/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-  "name": "Rose Plant",
-  "slug": "rose-plant",
-  "price": "25.00",
-  "description": "Beautiful rose plant.",
-  "care_guide": "Water daily.",
-  "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-  "quantity": 10,
-  "rating": "4.5",
-  "category": "Plants",
-  "created_at": "2025-02-21T04:10:38.236637Z"
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/product details.png' %}" alt="Postman Product Details Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>14. Rate Product</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/products/rose-plant/rate/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "rating": "5"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "product_slug": "rose-plant",
-  "product": "Rose Plant",
-  "rating": "5.0",
-  "created_at": "2025-02-21T19:52:00.437973Z"
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/rate.png' %}" alt="Postman Rate Product Preview">
-      </div>
-    </div>
-
-    <!-- Wishlist APIs -->
-    <div class="section">
-      <h3>15. Wishlist - Add Item</h3>
-      <code>POSThttps://mohamednowar.pythonanywhere.com/api/wishlist/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "product_slug": "rose-plant"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-        {
-          "product": {
-              "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-              "rating": 5.0,
-              "name": "Strawberry Seeds",
-              "slug": "test_1",
-              "price": "123.00",
-              "description": "test",
-              "care_guide": "test",
-              "image": "http://127.0.0.1:8000/media/products/default_WR73DfO.jpg",
-              "quantity": 1,
-              "category": "Plants",
-              "created_at": "2025-02-25T22:14:12.873937Z"
-          },
-          "added_at": "2025-02-25T22:24:28.172221Z"
-      }
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/add_wishlist.png' %}" alt="Postman Wishlist Add Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>16. Wishlist - Get Items</h3>
-      <code>GET https://mohamednowar.pythonanywhere.com/api/wishlist/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-[
-  {
-    "product": {
-      "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-      "name": "Rose Plant",
-      "slug": "rose-plant",
-      "price": "25.00",
-      "description": "Beautiful rose plant.",
-      "care_guide": "Water daily.",
-      "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-      "quantity": 10,
-      "rating": "4.5",
-      "category": "Plants",
-      "created_at": "2025-02-21T04:10:38.236637Z"
-    },
-    "added_at": "2025-02-21T19:58:52.875736Z"
-  }
-]
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/view_wishlist.png' %}" alt="Postman Wishlist Get Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>17. Wishlist - Delete Item</h3>
-      <code>DELETE https://mohamednowar.pythonanywhere.com/api/wishlist/delete/rose-plant/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Item removed from wishlist."
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/delete_wishlist.png' %}" alt="Postman Wishlist Delete Preview">
-      </div>
-    </div>
-
-    <!-- Cart APIs -->
-    <div class="section">
-      <h3>18. Cart - Add Item</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/cart/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "product": "rose-plant"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Item added to cart.",
-  "cart_item": {
-    "product": {
-      "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-      "name": "Rose Plant",
-      "slug": "rose-plant",
-      "price": "25.00",
-      "description": "Beautiful rose plant.",
-      "care_guide": "Water daily.",
-      "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-      "quantity": 10,
-      "rating": "4.5",
-      "category": "Plants",
-      "created_at": "2025-02-21T04:10:38.236637Z"
-    },
-    "quantity": 1,
-    "added_at": "2025-02-21T20:04:26.808868Z"
-  }
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/add_cart.png' %}" alt="Postman Cart Add Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>19. Cart - Get Items</h3>
-      <code>GET https://mohamednowar.pythonanywhere.com/api/cart/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-[
-  {
-    "product": {
-      "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-      "name": "Rose Plant",
-      "slug": "rose-plant",
-      "price": "25.00",
-      "description": "Beautiful rose plant.",
-      "care_guide": "Water daily.",
-      "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-      "quantity": 10,
-      "rating": "4.5",
-      "category": "Plants",
-      "created_at": "2025-02-21T04:10:38.236637Z"
-    },
-    "quantity": 2,
-    "added_at": "2025-02-21T20:04:26.808868Z"
-  }
-]
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/view_cart.png' %}" alt="Postman Cart Get Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>20. Cart - Update Quantity (Reduce/Delete)</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/cart/reduce-delete/rose-plant/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Item quantity reduced by 1.",
-  "cart_item": {
-    "product": {
-      "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-      "name": "Rose Plant",
-      "slug": "rose-plant",
-      "price": "25.00",
-      "description": "Beautiful rose plant.",
-      "care_guide": "Water daily.",
-      "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-      "quantity": 10,
-      "rating": "4.5",
-      "category": "Plants",
-      "created_at": "2025-02-21T04:10:38.236637Z"
-    },
-    "quantity": 1,
-    "added_at": "2025-02-21T20:04:26.808868Z"
-  }
-}
-<div class="postman-preview">
-    <h3>🛠 Postman Example</h3>
-    <img src="{% static 'images/update_cart.png' %}" alt="Postman Reset Password Preview">
-  </div>
-      </code>
-      <p>Or for complete deletion from cart:</p>
-      <code>
-{
-  "message": "Item removed from cart."
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/delete_cart.png' %}" alt="Postman Cart Update Preview">
-      </div>
-    </div>
-
-    <!-- Checkout & Orders -->
-    <div class="section">
-      <h3>21. Checkout</h3>
-      <code>POST https://mohamednowar.pythonanywhere.com/api/checkout/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "phone": "1234567890",
-  "email": "john.doe@example.com",
-  "address": "123 Main St, City"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Order placed successfully!",
-  "order": {
-    "phone": "1234567890",
-    "email": "john.doe@example.com",
-    "address": "123 Main St, City",
-    "items": [
-      {
-        "order": 4,
-        "product": 1,
-        "product_name": "Rose Plant",
-        "product_slug": "rose-plant",
-        "quantity": 1,
-        "price": "25.00"
-      }
-    ],
-    "total_price": "25.00",
-    "status": "Pending",
-    "created_at": "2025-02-21T20:40:16.380001Z"
-  }
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/ckeckout.png' %}" alt="Postman Checkout Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>22. Orders</h3>
-      <code>GET https://mohamednowar.pythonanywhere.com/api/orders/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-[
-  {
-    "phone": "1234567890",
-    "email": "john.doe@example.com",
-    "address": "123 Main St, City",
-    "items": [
-      {
-        "order": "66e04f65-12df-4b65-9672-b2b35d5ac0ca",
-        "product": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-        "product_name": "Sunflower Seeds",
-        "product_slug": "sunflower-seeds",
-        "quantity": 1,
-        "price": "5.00"
-      }
-    ],
-    "total_price": "5.00",
-    "status": "Pending",
-    "created_at": "2025-02-21T20:12:08.589618Z"
-  }
-]
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/orders.png' %}" alt="Postman Orders Preview">
-      </div>
-    </div>
-    <h2 style="text-align: center;">Community</h2>
-        <!-- Community -->
-        <div class="section">
-          <h3>23. Add Post</h3>
-          <code>POST https://mohamednowar.pythonanywhere.com/api/posts/</code>
-          <h4>📥 Request Body</h4>
-          <code>
-    {
-        "post_name": "My First Post",
-        "content": "This is the content of my post."
-    }
-          </code>
-          <h4>📤 Response Example</h4>
-          <code>
-    {
-        "post_name": "My First Post",
-        "id": "f071bffd-48f9-4852-9cd1-3e0e2df045a1",
-        "user": {
-            "username": "test1"
-            "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-        },
-        "content": "This is the content of my post.",
-        "image": "https://via.placeholder.com/150",
-        "created_at": "2025-03-07T15:11:20.191685Z",
-        "updated_at": "2025-03-07T15:11:20.191732Z"
-    }
-          </code>
-          <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
-            <img src="{% static 'images/addpost.png' %}" alt="Postman Reset Password Preview">
-          </div>
+      <div class="section">
+        <h3>22. Orders</h3>
+        <code>GET http://56.228.2.47:8000/api/orders/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          [ { "phone": "1234567890", "email": "john.doe@example.com", "address":
+          "123 Main St, City", "items": [ { "order":
+          "66e04f65-12df-4b65-9672-b2b35d5ac0ca", "product":
+          "331eb658-d23b-48c9-a48c-947a6b263e2a", "product_name": "Sunflower
+          Seeds", "product_slug": "sunflower-seeds", "quantity": 1, "price":
+          "5.00" } ], "total_price": "5.00", "status": "Pending", "created_at":
+          "2025-02-21T20:12:08.589618Z" } ]
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/orders.png' %}"
+            alt="Postman Orders Preview"
+          />
         </div>
-    
-        <div class="section">
-          <h3>24. View Posts</h3>
-          <code>GET https://mohamednowar.pythonanywhere.com/api/posts/</code>
-          <h4>📤 Response Example</h4>
-          <code>
-    {
-        "post_name": "My First Post edit",
-        "id": "f071bffd-48f9-4852-9cd1-3e0e2df045a1",
-        "user": {
-            "username": "johndoee"
-            "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-        },
-        "content": "This is the content of my post.",
-        "image": "https://via.placeholder.com/150",
-        "comments": [
-            {
-                "user": {
-                    "username": "johndoee"
-                    "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-                },
-                "comment": "test",
-                "created_at": "2025-03-07T15:23:41.713908Z",
-                "updated_at": "2025-03-07T15:23:41.713908Z"
-            }
-        ],
-        "created_at": "2025-03-07T15:21:28.502507Z",
-        "updated_at": "2025-03-07T15:52:48.958121Z"
-    }
-          </code>
-          <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
-            <img src="{% static 'images/viewposts.png' %}" alt="Postman Reset Password Preview">
-          </div>
+      </div>
+      <h2 style="text-align: center">Community</h2>
+      <!-- Community -->
+      <div class="section">
+        <h3>23. Add Post</h3>
+        <code>POST http://56.228.2.47:8000/api/posts/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "post_name": "My First Post", "content": "This is the content of my
+          post." }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "post_name": "My First Post", "id":
+          "f071bffd-48f9-4852-9cd1-3e0e2df045a1", "user": { "username": "test1"
+          "image": "http://127.0.0.1:8000/media/profile_images/default.jpg" },
+          "content": "This is the content of my post.", "image":
+          "https://via.placeholder.com/150", "created_at":
+          "2025-03-07T15:11:20.191685Z", "updated_at":
+          "2025-03-07T15:11:20.191732Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/addpost.png' %}"
+            alt="Postman Reset Password Preview"
+          />
         </div>
-    
-        <div class="section">
-          <h3>25. Edit Post</h3>
-          <code>PUT https://mohamednowar.pythonanywhere.com/api/posts/post_id/</code>
-          <h4>📥 Request Body</h4>
-          <code>
-    {
-        "post_name": "My First Post edit",
-        "content": "This is the content of my post."
-    }
-          </code>
-          <h4>📤 Response Example</h4>
-          <code>
-    {
-        "post_name": "My First Post edit",
-        "id": "f071bffd-48f9-4852-9cd1-3e0e2df045a1",
-        "user": {
-            "username": "johndoee"
-            "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-        },
-        "content": "This is the content of my post.",
-        "image": "https://via.placeholder.com/150",
-        "comments": [],
-        "created_at": "2025-03-07T15:21:28.502507Z",
-        "updated_at": "2025-03-07T15:52:48.958121Z"
-    }
-          </code>
-          <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
-            <img src="{% static 'images/editpost.png' %}" alt="Postman Reset Password Preview">
-          </div>
+      </div>
+
+      <div class="section">
+        <h3>24. View Posts</h3>
+        <code>GET http://56.228.2.47:8000/api/posts/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "post_name": "My First Post edit", "id":
+          "f071bffd-48f9-4852-9cd1-3e0e2df045a1", "user": { "username":
+          "johndoee" "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" }, "content":
+          "This is the content of my post.", "image":
+          "https://via.placeholder.com/150", "comments": [ { "user": {
+          "username": "johndoee" "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" }, "comment":
+          "test", "created_at": "2025-03-07T15:23:41.713908Z", "updated_at":
+          "2025-03-07T15:23:41.713908Z" } ], "created_at":
+          "2025-03-07T15:21:28.502507Z", "updated_at":
+          "2025-03-07T15:52:48.958121Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/viewposts.png' %}"
+            alt="Postman Reset Password Preview"
+          />
         </div>
-    
-        <div class="section">
-          <h3>26. Add Comment</h3>
-          <code>POST https://mohamednowar.pythonanywhere.com/api/posts/post_id/comments/</code>
-          <h4>📥 Request Body</h4>
-          <code>
-    {
-        "comment": "test"
-    }
-          </code>
-          <h4>📤 Response Example</h4>
-          <code>
-    {
-        "user": {
-            "username": "johndoee"
-            "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-        },
-        "comment": "test",
-        "created_at": "2025-03-07T15:23:41.713908Z",
-        "updated_at": "2025-03-07T15:23:41.713908Z"
-    }
-          </code>
-          <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
-            <img src="{% static 'images/addcomment.png' %}" alt="Postman Reset Password Preview">
-          </div>
+      </div>
+
+      <div class="section">
+        <h3>25. Edit Post</h3>
+        <code>PUT http://56.228.2.47:8000/api/posts/post_id/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "post_name": "My First Post edit", "content": "This is the content
+          of my post." }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "post_name": "My First Post edit", "id":
+          "f071bffd-48f9-4852-9cd1-3e0e2df045a1", "user": { "username":
+          "johndoee" "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" }, "content":
+          "This is the content of my post.", "image":
+          "https://via.placeholder.com/150", "comments": [], "created_at":
+          "2025-03-07T15:21:28.502507Z", "updated_at":
+          "2025-03-07T15:52:48.958121Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/editpost.png' %}"
+            alt="Postman Reset Password Preview"
+          />
         </div>
-    
-        <div class="section">
-          <h3>27. Edit Comment</h3>
-          <code>PUT https://mohamednowar.pythonanywhere.com/api/posts/post_id/comments/comment_id/</code>
-          <h4>📥 Request Body</h4>
-          <code>
-    {
-        "comment": "edited"
-    }
-          </code>
-          <h4>📤 Response Example</h4>
-          <code>
-    {
-        "user": {
-            "username": "johndoee"
-            "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-        },
-        "id": 1,
-        "comment": "edited",
-        "created_at": "2025-03-07T15:23:41.713908Z",
-        "updated_at": "2025-03-07T16:01:12.190337Z"
-    }
-          </code>
-          <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
-            <img src="{% static 'images/editcomment.png' %}" alt="Postman Reset Password Preview">
-          </div>
+      </div>
+
+      <div class="section">
+        <h3>26. Delete Post</h3>
+        <code>DELETE http://56.228.2.47:8000/api/posts/post_id/</code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "Post deleted successfully" } </code>
+
+      </div>
+
+      <div class="section">
+        <h3>27. Add Comment</h3>
+        <code>POST http://56.228.2.47:8000/api/posts/post_id/comments/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "comment": "test" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "user": { "username": "johndoee" "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" }, "comment":
+          "test", "created_at": "2025-03-07T15:23:41.713908Z", "updated_at":
+          "2025-03-07T15:23:41.713908Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/addcomment.png' %}"
+            alt="Postman Reset Password Preview"
+          />
         </div>
-    
-  </div>
-</body>
+      </div>
+
+      <div class="section">
+        <h3>28. Edit Comment</h3>
+        <code>PUT http://56.228.2.47:8000/api/posts/post_id/comments/comment_id/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "comment": "edited" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "user": { "username": "johndoee" "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" }, "id": 1,
+          "comment": "edited", "created_at": "2025-03-07T15:23:41.713908Z",
+          "updated_at": "2025-03-07T16:01:12.190337Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/editcomment.png' %}"
+            alt="Postman Reset Password Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>29. Delete Comment</h3>
+        <code>DELETE http://56.228.2.47:8000/api/posts/post_id/comments/comment_id/</code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "Comment deleted successfully" } </code>
+  
+      </div>
+      <h2 style="text-align: center">AI</h2>
+      <div class="section">
+        <h3>30. Predict</h3>
+        <code>POST http://56.228.2.47:8000/api/predict/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "image": "test.png" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "disease_name": "Cherry : Powdery Mildew", "description": "Initial
+          symptoms, often occurring 7 to 10 days after the onset of the first
+          irrigation, are light roughly-circular, ...", "care_guide": "Use
+          sulfur-based sprays; ensure good airflow.", "prevention_steps":
+          "Disinfect the cutting edges, then prune out and discard the diseased
+          portions of the plant immediately. ..", "supplement_name": "ROM Mildew
+          Clean" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/ai.png' %}"
+            alt="Postman Reset Password Preview"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
 {% comment %} {% load static %}
 
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Documentation</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    h2, h3 {
-      color: #007BFF;
-    }
-    .section {
-      margin-bottom: 30px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 15px;
-    }
-    code {
-      background: #f4f4f4;
-      padding: 10px;
-      display: block;
-      border-radius: 5px;
-      white-space: pre-wrap;
-      margin-top: 5px;
-    }
-    .postman-preview img {
-      width: 50%;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2 style="text-align: center;">API Documentation</h2>
-    
-    <!-- Account APIs -->
-    <div class="section">
-        <h2 style="text-align: center;">Accounts</h2>
-      <h3>1. Register</h3>
-      <code>POST http://127.0.0.1:8000/api/register/</code>
-      <h4>🔹 Headers</h4>
-      <code>
-Content-Type: application/json
-      </code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "first_name": "John",
-  "last_name": "Doe",
-  "date_of_birth": "1990-01-01",
-  "username": "johndoe",
-  "email": "john.doe@example.com",
-  "password": "password123",
-  "confirm_password": "password123",
-  "phone_number": "1234567890",
-  "gender": "M"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "User created successfully",
-  "token": "exampletoken123",
-  "user": {
-    "first_name": "John",
-    "last_name": "Doe",
-    "date_of_birth": "1990-01-01",
-    "username": "johndoe",
-    "email": "john.doe@example.com",
-    "phone_number": "1234567890",
-    "gender": "M"
-  },
-  "status": 201
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/register.png' %}" alt="Postman Preview">
-      </div>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 20px;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2,
+      h3 {
+        color: #007bff;
+      }
+      .section {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+      }
+      code {
+        background: #f4f4f4;
+        padding: 10px;
+        display: block;
+        border-radius: 5px;
+        white-space: pre-wrap;
+        margin-top: 5px;
+      }
+      .postman-preview img {
+        width: 50%;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 style="text-align: center">API Documentation</h2>
 
-    <div class="section">
-      <h3>2. Login</h3>
-      <code>POST http://127.0.0.1:8000/api/login/</code>
-      <h4>🔹 Headers</h4>
-      <code>
-Content-Type: application/json
-      </code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "email": "john.doe@example.com",
-  "password": "password123"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Login successful",
-  "token": "exampletoken123",
-  "user": {
-    "id": "6b7efe4a-bac2-4d02-ae98-30cb259082a1",
-    "first_name": "John",
-    "last_name": "Doe",
-    "email": "john.doe@example.com"
-  }
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/login.png' %}" alt="Postman Login Preview">
+      <!-- Account APIs -->
+      <div class="section">
+        <h2 style="text-align: center">Accounts</h2>
+        <h3>1. Register</h3>
+        <code>POST http://127.0.0.1:8000/api/register/</code>
+        <h4>🔹 Headers</h4>
+        <code> Content-Type: application/json </code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "first_name": "John", "last_name": "Doe", "date_of_birth":
+          "1990-01-01", "username": "johndoe", "email": "john.doe@example.com",
+          "password": "password123", "confirm_password": "password123",
+          "phone_number": "1234567890", "gender": "M" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "User created successfully", "token": "exampletoken123",
+          "user": { "first_name": "John", "last_name": "Doe", "date_of_birth":
+          "1990-01-01", "username": "johndoe", "email": "john.doe@example.com",
+          "phone_number": "1234567890", "gender": "M" }, "status": 201 }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img src="{% static 'images/register.png' %}" alt="Postman Preview" />
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h3>3. Profile</h3>
-      <code>GET http://127.0.0.1:8000/api/profile/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "first_name": "John",
-  "last_name": "Doe",
-  "email": "john.doe@example.com",
-  "date_of_birth": "1990-01-01",
-  "gender": "M",
-  "phone_number": "1234567890",
-  "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/profile.png' %}" alt="Postman Profile Preview">
+      <div class="section">
+        <h3>2. Login</h3>
+        <code>POST http://127.0.0.1:8000/api/login/</code>
+        <h4>🔹 Headers</h4>
+        <code> Content-Type: application/json </code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "email": "john.doe@example.com", "password": "password123" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Login successful", "token": "exampletoken123", "user": {
+          "id": "6b7efe4a-bac2-4d02-ae98-30cb259082a1", "first_name": "John",
+          "last_name": "Doe", "email": "john.doe@example.com" } }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/login.png' %}"
+            alt="Postman Login Preview"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h3>4. Update Profile</h3>
-      <code>POST http://127.0.0.1:8000/api/update/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "first_name": "John",
-  "phone_number": "0987654321",
-  "current_password": "password123"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Data updated successfully",
-  "user": {
-    "first_name": "John",
-    "last_name": "Doe",
-    "date_of_birth": "1990-01-01",
-    "username": "johndoe",
-    "email": "john.doe@example.com",
-    "phone_number": "0987654321",
-    "gender": "M",
-    "image": "http://127.0.0.1:8000/media/profile_images/default.jpg"
-  }
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/update.png' %}" alt="Postman Update Profile Preview">
+      <div class="section">
+        <h3>3. Profile</h3>
+        <code>GET http://127.0.0.1:8000/api/profile/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "first_name": "John", "last_name": "Doe", "email":
+          "john.doe@example.com", "date_of_birth": "1990-01-01", "gender": "M",
+          "phone_number": "1234567890", "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/profile.png' %}"
+            alt="Postman Profile Preview"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h3>5. Change Password</h3>
-      <code>POST http://127.0.0.1:8000/api/change_password/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "current_password": "password123",
-  "new_password": "newpassword123",
-  "confirm_password": "newpassword123"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Password updated successfully",
-  "status": 200
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/update_password.png' %}" alt="Postman Change Password Preview">
+      <div class="section">
+        <h3>4. Update Profile</h3>
+        <code>POST http://127.0.0.1:8000/api/update/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "first_name": "John", "phone_number": "0987654321",
+          "current_password": "password123" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Data updated successfully", "user": { "first_name":
+          "John", "last_name": "Doe", "date_of_birth": "1990-01-01", "username":
+          "johndoe", "email": "john.doe@example.com", "phone_number":
+          "0987654321", "gender": "M", "image":
+          "http://127.0.0.1:8000/media/profile_images/default.jpg" } }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/update.png' %}"
+            alt="Postman Update Profile Preview"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h3>6. Get OTP</h3>
-      <code>POST http://127.0.0.1:8000/api/get_otp/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "email": "john.doe@example.com"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "OTP sent to your email",
-  "status": 200
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/get_otp.png' %}" alt="Postman Get OTP Preview">
+      <div class="section">
+        <h3>5. Change Password</h3>
+        <code>POST http://127.0.0.1:8000/api/change_password/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "current_password": "password123", "new_password": "newpassword123",
+          "confirm_password": "newpassword123" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Password updated successfully", "status": 200 }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/update_password.png' %}"
+            alt="Postman Change Password Preview"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h3>7. Verify OTP</h3>
-      <code>POST http://127.0.0.1:8000/api/verify_otp/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "email": "john.doe@example.com",
-  "otp": "123456"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "OTP verified successfully",
-  "status": 200
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/verify_otp.png' %}" alt="Postman Verify OTP Preview">
+      <div class="section">
+        <h3>6. Get OTP</h3>
+        <code>POST http://127.0.0.1:8000/api/get_otp/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "email": "john.doe@example.com" } </code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "OTP sent to your email", "status": 200 } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/get_otp.png' %}"
+            alt="Postman Get OTP Preview"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h3>8. Reset Password</h3>
-      <code>POST http://127.0.0.1:8000/api/reset_password/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "email": "john.doe@example.com",
-  "new_password": "newpassword123"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Password reset successfully",
-  "status": 200
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/reset_password.png' %}" alt="Postman Reset Password Preview">
+      <div class="section">
+        <h3>7. Verify OTP</h3>
+        <code>POST http://127.0.0.1:8000/api/verify_otp/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "email": "john.doe@example.com", "otp": "123456" } </code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "OTP verified successfully", "status": 200 } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/verify_otp.png' %}"
+            alt="Postman Verify OTP Preview"
+          />
+        </div>
       </div>
-    </div>
 
-    <h2 style="text-align: center;">Home</h2>
-    <div class="section">
+      <div class="section">
+        <h3>8. Reset Password</h3>
+        <code>POST http://127.0.0.1:8000/api/reset_password/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "email": "john.doe@example.com", "new_password": "newpassword123" }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Password reset successfully", "status": 200 }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/reset_password.png' %}"
+            alt="Postman Reset Password Preview"
+          />
+        </div>
+      </div>
+
+      <h2 style="text-align: center">Home</h2>
+      <div class="section">
         <h3>9. Submit a Review</h3>
         <code>POST http://127.0.0.1:8000/api/reviews/</code>
         <h4>🔹 Headers</h4>
-        <code>
-  Content-Type: multipart/form-data
-        </code>
+        <code> Content-Type: multipart/form-data </code>
         <h4>📥 Request Body</h4>
         <code>
-  {
-    "review": "This is an example review.",
-    "image": "example_image.jpg"
-  }
+          { "review": "This is an example review.", "image": "example_image.jpg"
+          }
         </code>
         <h4>📤 Response Example (Success)</h4>
         <code>
-  {
-    "user_full_name": "Example User",
-    "review": "This is an example review.",
-    "date": "2025-02-22",
-    "image": "http://127.0.0.1:8000/media/ClintReview/example_image.jpg"
-  }
+          { "user_full_name": "Example User", "review": "This is an example
+          review.", "date": "2025-02-22", "image":
+          "http://127.0.0.1:8000/media/ClintReview/example_image.jpg" }
         </code>
         <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-          <img src="{% static 'images/send review.png' %}" alt="Postman Submit Review Preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/send review.png' %}"
+            alt="Postman Submit Review Preview"
+          />
         </div>
       </div>
-  
+
       <div class="section">
         <h3>10. Get All Reviews</h3>
         <code>GET http://127.0.0.1:8000/api/reviews/</code>
         <h4>📤 Response Example</h4>
         <code>
-  [
-    {
-      "user_full_name": "Example User 1",
-      "review": "This is an example review.",
-      "date": "2025-02-22",
-      "image": "http://127.0.0.1:8000/media/ClintReview/example_image_1.jpg"
-    },
-    {
-      "user_full_name": "Example User 2",
-      "review": "Another example review.",
-      "date": "2025-02-23",
-      "image": "http://127.0.0.1:8000/media/ClintReview/example_image_2.jpg"
-    }
-  ]
+          [ { "user_full_name": "Example User 1", "review": "This is an example
+          review.", "date": "2025-02-22", "image":
+          "http://127.0.0.1:8000/media/ClintReview/example_image_1.jpg" }, {
+          "user_full_name": "Example User 2", "review": "Another example
+          review.", "date": "2025-02-23", "image":
+          "http://127.0.0.1:8000/media/ClintReview/example_image_2.jpg" } ]
         </code>
         <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
+          <h3>🛠 Postman Example</h3>
 
-          <img src=".{% static 'images/get review.png' %}" alt="Postman Get Reviews Preview">
+          <img
+            src=".{% static 'images/get review.png' %}"
+            alt="Postman Get Reviews Preview"
+          />
         </div>
       </div>
-  
 
       <div class="section">
         <h3>11. Contact Us</h3>
         <code>POST http://127.0.0.1:8000/api/contact/</code>
         <h4>🔹 Headers</h4>
-        <code>
-  Content-Type: application/json
-        </code>
+        <code> Content-Type: application/json </code>
         <h4>📥 Request Body</h4>
         <code>
-  {
-    "name": "Example Name",
-    "email": "example@example.com",
-    "phone": "1234567890",
-    "message": "This is an example message."
-  }
+          { "name": "Example Name", "email": "example@example.com", "phone":
+          "1234567890", "message": "This is an example message." }
+        </code>
+        <h4>📤 Response Example</h4>
+        <code> { "message": "Email sent successfully" } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <div style="display: flex; gap: 10px">
+            <img
+              src="{% static 'images/contact.png' %}"
+              alt="Postman Contact Preview"
+            />
+            <img
+              src="{% static 'images/contact2.png' %}"
+              alt="Postman Contact Preview"
+            />
+          </div>
+        </div>
+      </div>
+
+      <h2 style="text-align: center">Shop</h2>
+      <div class="section">
+        <h3>12. Get Products</h3>
+        <code>GET http://127.0.0.1:8000/api/products/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          [ { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose
+          Plant", "slug": "rose-plant", "price": "25.00", "description":
+          "Beautiful rose plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, { "id":
+          "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Sunflower Seeds",
+          "slug": "sunflower-seeds", "price": "5.00", "description":
+          "High-quality sunflower seeds.", "care_guide": "Plant in sunny area.",
+          "image": "http://127.0.0.1:8000/media/products/sunflower.jpg",
+          "quantity": 50, "rating": "4.0", "category": "Seeds", "created_at":
+          "2025-02-21T04:11:00.045397Z" } ]
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/allproducts.png' %}"
+            alt="Postman Product Preview"
+          />
+        </div>
+        <h4>🔍 Filters</h4>
+        <code>
+          http://127.0.0.1:8000/api/products/?keyword=rose
+          http://127.0.0.1:8000/api/products/?category=Plants
+          http://127.0.0.1:8000/api/products/?maxPrice=30
+          http://127.0.0.1:8000/api/products/?minPrice=10
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <div style="display: flex; gap: 10px">
+            <img
+              src="{% static 'images/filter1.png' %}"
+              alt="Postman Get Products Preview"
+            />
+            <img
+              src="{% static 'images/filter2.png' %}"
+              alt="Postman Get Products Preview"
+            />
+          </div>
+          <div style="display: flex; gap: 10px">
+            <img
+              src="{% static 'images/filter3' %}.png"
+              alt="Postman Get Products Preview"
+            />
+            <img
+              src="{% static 'images/filter4.png' %}"
+              alt="Postman Get Products Preview"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>13. Product Details</h3>
+        <code>GET http://127.0.0.1:8000/api/products/rose-plant/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose Plant",
+          "slug": "rose-plant", "price": "25.00", "description": "Beautiful rose
+          plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/product details.png' %}"
+            alt="Postman Product Details Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>14. Rate Product</h3>
+        <code>POST http://127.0.0.1:8000/api/products/rose-plant/rate/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "rating": "5" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "product_slug": "rose-plant", "product": "Rose Plant", "rating":
+          "5.0", "created_at": "2025-02-21T19:52:00.437973Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/rate.png' %}"
+            alt="Postman Rate Product Preview"
+          />
+        </div>
+      </div>
+
+      <!-- Wishlist APIs -->
+      <div class="section">
+        <h3>15. Wishlist - Add Item</h3>
+        <code>POST http://127.0.0.1:8000/api/wishlist/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "product_slug": "rose-plant" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "product": { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "rating":
+          5.0, "name": "Strawberry Seeds", "slug": "test_1", "price": "123.00",
+          "description": "test", "care_guide": "test", "image":
+          "http://127.0.0.1:8000/media/products/default_WR73DfO.jpg",
+          "quantity": 1, "category": "Plants", "created_at":
+          "2025-02-25T22:14:12.873937Z" }, "added_at":
+          "2025-02-25T22:24:28.172221Z" }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/add_wishlist.png' %}"
+            alt="Postman Wishlist Add Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>16. Wishlist - Get Items</h3>
+        <code>GET http://127.0.0.1:8000/api/wishlist/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          [ { "product": { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name":
+          "Rose Plant", "slug": "rose-plant", "price": "25.00", "description":
+          "Beautiful rose plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, "added_at":
+          "2025-02-21T19:58:52.875736Z" } ]
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/view_wishlist.png' %}"
+            alt="Postman Wishlist Get Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>17. Wishlist - Delete Item</h3>
+        <code
+          >DELETE http://127.0.0.1:8000/api/wishlist/delete/rose-plant/</code
+        >
+        <h4>📤 Response Example</h4>
+        <code> { "message": "Item removed from wishlist." } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/delete_wishlist.png' %}"
+            alt="Postman Wishlist Delete Preview"
+          />
+        </div>
+      </div>
+
+      <!-- Cart APIs -->
+      <div class="section">
+        <h3>18. Cart - Add Item</h3>
+        <code>POST http://127.0.0.1:8000/api/cart/</code>
+        <h4>📥 Request Body</h4>
+        <code> { "product": "rose-plant" } </code>
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Item added to cart.", "cart_item": { "product": { "id":
+          "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose Plant", "slug":
+          "rose-plant", "price": "25.00", "description": "Beautiful rose
+          plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, "quantity": 1, "added_at":
+          "2025-02-21T20:04:26.808868Z" } }
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/add_cart.png' %}"
+            alt="Postman Cart Add Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>19. Cart - Get Items</h3>
+        <code>GET http://127.0.0.1:8000/api/cart/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          [ { "product": { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name":
+          "Rose Plant", "slug": "rose-plant", "price": "25.00", "description":
+          "Beautiful rose plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, "quantity": 2, "added_at":
+          "2025-02-21T20:04:26.808868Z" } ]
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/view_cart.png' %}"
+            alt="Postman Cart Get Preview"
+          />
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>20. Cart - Update Quantity (Reduce/Delete)</h3>
+        <code
+          >POST http://127.0.0.1:8000/api/cart/reduce-delete/rose-plant/</code
+        >
+        <h4>📤 Response Example</h4>
+        <code>
+          { "message": "Item quantity reduced by 1.", "cart_item": { "product":
+          { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose Plant",
+          "slug": "rose-plant", "price": "25.00", "description": "Beautiful rose
+          plant.", "care_guide": "Water daily.", "image":
+          "http://127.0.0.1:8000/media/products/rose.jpg", "quantity": 10,
+          "rating": "4.5", "category": "Plants", "created_at":
+          "2025-02-21T04:10:38.236637Z" }, "quantity": 1, "added_at":
+          "2025-02-21T20:04:26.808868Z" } }
+          <div class="postman-preview">
+            <h3>🛠 Postman Example</h3>
+            <img
+              src="{% static 'images/update_cart.png' %}"
+              alt="Postman Reset Password Preview"
+            />
+          </div>
+        </code>
+        <p>Or for complete deletion from cart:</p>
+        <code> { "message": "Item removed from cart." } </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/delete_cart.png' %}"
+            alt="Postman Cart Update Preview"
+          />
+        </div>
+      </div>
+
+      <!-- Checkout & Orders -->
+      <div class="section">
+        <h3>21. Checkout</h3>
+        <code>POST http://127.0.0.1:8000/api/checkout/</code>
+        <h4>📥 Request Body</h4>
+        <code>
+          { "phone": "1234567890", "email": "john.doe@example.com", "address":
+          "123 Main St, City" }
         </code>
         <h4>📤 Response Example</h4>
         <code>
-  {
-    "message": "Email sent successfully"
-  }
+          { "message": "Order placed successfully!", "order": { "phone":
+          "1234567890", "email": "john.doe@example.com", "address": "123 Main
+          St, City", "items": [ { "order": 4, "product": 1, "product_name":
+          "Rose Plant", "product_slug": "rose-plant", "quantity": 1, "price":
+          "25.00" } ], "total_price": "25.00", "status": "Pending",
+          "created_at": "2025-02-21T20:40:16.380001Z" } }
         </code>
         <div class="postman-preview">
-            <h3>🛠 Postman Example</h3>
-            <div style="display: flex;gap: 10px;">
-
-          <img src="{% static 'images/contact.png' %}" alt="Postman Contact Preview">
-          <img src="{% static 'images/contact2.png' %}" alt="Postman Contact Preview">
-            </div>
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/ckeckout.png' %}"
+            alt="Postman Checkout Preview"
+          />
         </div>
       </div>
- 
-  
-  
-      <h2 style="text-align: center;">Shop</h2>
-    <div class="section">
-      <h3>12. Get Products</h3>
-      <code>GET http://127.0.0.1:8000/api/products/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-[
-  {
-    "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-    "name": "Rose Plant",
-    "slug": "rose-plant",
-    "price": "25.00",
-    "description": "Beautiful rose plant.",
-    "care_guide": "Water daily.",
-    "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-    "quantity": 10,
-    "rating": "4.5",
-    "category": "Plants",
-    "created_at": "2025-02-21T04:10:38.236637Z"
-  },
-  {
-    "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-    "name": "Sunflower Seeds",
-    "slug": "sunflower-seeds",
-    "price": "5.00",
-    "description": "High-quality sunflower seeds.",
-    "care_guide": "Plant in sunny area.",
-    "image": "http://127.0.0.1:8000/media/products/sunflower.jpg",
-    "quantity": 50,
-    "rating": "4.0",
-    "category": "Seeds",
-    "created_at": "2025-02-21T04:11:00.045397Z"
-  }
-]
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/allproducts.png' %}" alt="Postman Product Preview">
-      </div>
-      <h4>🔍 Filters</h4>
-      <code>
-        http://127.0.0.1:8000/api/products/?keyword=rose
-        http://127.0.0.1:8000/api/products/?category=Plants
-        http://127.0.0.1:8000/api/products/?maxPrice=30
-        http://127.0.0.1:8000/api/products/?minPrice=10
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <div style="display: flex;gap: 10px;">
-        <img src="{% static 'images/filter1.png' %}" alt="Postman Get Products Preview">
-        <img src="{% static 'images/filter2.png' %}" alt="Postman Get Products Preview">
-        </div><div style="display: flex;gap: 10px;">
-        <img src="{% static 'images/filter3' %}.png" alt="Postman Get Products Preview">
-        <img src="{% static 'images/filter4.png' %}" alt="Postman Get Products Preview">
-    </div>
-      </div>
-    </div>
 
-    <div class="section">
-      <h3>13. Product Details</h3>
-      <code>GET http://127.0.0.1:8000/api/products/rose-plant/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-  "name": "Rose Plant",
-  "slug": "rose-plant",
-  "price": "25.00",
-  "description": "Beautiful rose plant.",
-  "care_guide": "Water daily.",
-  "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-  "quantity": 10,
-  "rating": "4.5",
-  "category": "Plants",
-  "created_at": "2025-02-21T04:10:38.236637Z"
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/product details.png' %}" alt="Postman Product Details Preview">
+      <div class="section">
+        <h3>22. Orders</h3>
+        <code>GET http://127.0.0.1:8000/api/orders/</code>
+        <h4>📤 Response Example</h4>
+        <code>
+          [ { "phone": "1234567890", "email": "john.doe@example.com", "address":
+          "123 Main St, City", "items": [ { "order":
+          "66e04f65-12df-4b65-9672-b2b35d5ac0ca", "product":
+          "331eb658-d23b-48c9-a48c-947a6b263e2a", "product_name": "Sunflower
+          Seeds", "product_slug": "sunflower-seeds", "quantity": 1, "price":
+          "5.00" } ], "total_price": "5.00", "status": "Pending", "created_at":
+          "2025-02-21T20:12:08.589618Z" } ]
+        </code>
+        <div class="postman-preview">
+          <h3>🛠 Postman Example</h3>
+          <img
+            src="{% static 'images/orders.png' %}"
+            alt="Postman Orders Preview"
+          />
+        </div>
       </div>
+      <h2 style="text-align: center">Community</h2>
     </div>
-
-    <div class="section">
-      <h3>14. Rate Product</h3>
-      <code>POST http://127.0.0.1:8000/api/products/rose-plant/rate/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "rating": "5"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "product_slug": "rose-plant",
-  "product": "Rose Plant",
-  "rating": "5.0",
-  "created_at": "2025-02-21T19:52:00.437973Z"
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/rate.png' %}" alt="Postman Rate Product Preview">
-      </div>
-    </div>
-
-    <!-- Wishlist APIs -->
-    <div class="section">
-      <h3>15. Wishlist - Add Item</h3>
-      <code>POST http://127.0.0.1:8000/api/wishlist/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "product_slug": "rose-plant"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-        {
-          "product": {
-              "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-              "rating": 5.0,
-              "name": "Strawberry Seeds",
-              "slug": "test_1",
-              "price": "123.00",
-              "description": "test",
-              "care_guide": "test",
-              "image": "http://127.0.0.1:8000/media/products/default_WR73DfO.jpg",
-              "quantity": 1,
-              "category": "Plants",
-              "created_at": "2025-02-25T22:14:12.873937Z"
-          },
-          "added_at": "2025-02-25T22:24:28.172221Z"
-      }
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/add_wishlist.png' %}" alt="Postman Wishlist Add Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>16. Wishlist - Get Items</h3>
-      <code>GET http://127.0.0.1:8000/api/wishlist/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-[
-  {
-    "product": {
-      "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-      "name": "Rose Plant",
-      "slug": "rose-plant",
-      "price": "25.00",
-      "description": "Beautiful rose plant.",
-      "care_guide": "Water daily.",
-      "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-      "quantity": 10,
-      "rating": "4.5",
-      "category": "Plants",
-      "created_at": "2025-02-21T04:10:38.236637Z"
-    },
-    "added_at": "2025-02-21T19:58:52.875736Z"
-  }
-]
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/view_wishlist.png' %}" alt="Postman Wishlist Get Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>17. Wishlist - Delete Item</h3>
-      <code>DELETE http://127.0.0.1:8000/api/wishlist/delete/rose-plant/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Item removed from wishlist."
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/delete_wishlist.png' %}" alt="Postman Wishlist Delete Preview">
-      </div>
-    </div>
-
-    <!-- Cart APIs -->
-    <div class="section">
-      <h3>18. Cart - Add Item</h3>
-      <code>POST http://127.0.0.1:8000/api/cart/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "product": "rose-plant"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Item added to cart.",
-  "cart_item": {
-    "product": {
-      "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-      "name": "Rose Plant",
-      "slug": "rose-plant",
-      "price": "25.00",
-      "description": "Beautiful rose plant.",
-      "care_guide": "Water daily.",
-      "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-      "quantity": 10,
-      "rating": "4.5",
-      "category": "Plants",
-      "created_at": "2025-02-21T04:10:38.236637Z"
-    },
-    "quantity": 1,
-    "added_at": "2025-02-21T20:04:26.808868Z"
-  }
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/add_cart.png' %}" alt="Postman Cart Add Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>19. Cart - Get Items</h3>
-      <code>GET http://127.0.0.1:8000/api/cart/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-[
-  {
-    "product": {
-      "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-      "name": "Rose Plant",
-      "slug": "rose-plant",
-      "price": "25.00",
-      "description": "Beautiful rose plant.",
-      "care_guide": "Water daily.",
-      "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-      "quantity": 10,
-      "rating": "4.5",
-      "category": "Plants",
-      "created_at": "2025-02-21T04:10:38.236637Z"
-    },
-    "quantity": 2,
-    "added_at": "2025-02-21T20:04:26.808868Z"
-  }
-]
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/view_cart.png' %}" alt="Postman Cart Get Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>20. Cart - Update Quantity (Reduce/Delete)</h3>
-      <code>POST http://127.0.0.1:8000/api/cart/reduce-delete/rose-plant/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Item quantity reduced by 1.",
-  "cart_item": {
-    "product": {
-      "id": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-      "name": "Rose Plant",
-      "slug": "rose-plant",
-      "price": "25.00",
-      "description": "Beautiful rose plant.",
-      "care_guide": "Water daily.",
-      "image": "http://127.0.0.1:8000/media/products/rose.jpg",
-      "quantity": 10,
-      "rating": "4.5",
-      "category": "Plants",
-      "created_at": "2025-02-21T04:10:38.236637Z"
-    },
-    "quantity": 1,
-    "added_at": "2025-02-21T20:04:26.808868Z"
-  }
-}
-<div class="postman-preview">
-    <h3>🛠 Postman Example</h3>
-    <img src="{% static 'images/update_cart.png' %}" alt="Postman Reset Password Preview">
-  </div>
-      </code>
-      <p>Or for complete deletion from cart:</p>
-      <code>
-{
-  "message": "Item removed from cart."
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/delete_cart.png' %}" alt="Postman Cart Update Preview">
-      </div>
-    </div>
-
-    <!-- Checkout & Orders -->
-    <div class="section">
-      <h3>21. Checkout</h3>
-      <code>POST http://127.0.0.1:8000/api/checkout/</code>
-      <h4>📥 Request Body</h4>
-      <code>
-{
-  "phone": "1234567890",
-  "email": "john.doe@example.com",
-  "address": "123 Main St, City"
-}
-      </code>
-      <h4>📤 Response Example</h4>
-      <code>
-{
-  "message": "Order placed successfully!",
-  "order": {
-    "phone": "1234567890",
-    "email": "john.doe@example.com",
-    "address": "123 Main St, City",
-    "items": [
-      {
-        "order": 4,
-        "product": 1,
-        "product_name": "Rose Plant",
-        "product_slug": "rose-plant",
-        "quantity": 1,
-        "price": "25.00"
-      }
-    ],
-    "total_price": "25.00",
-    "status": "Pending",
-    "created_at": "2025-02-21T20:40:16.380001Z"
-  }
-}
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/ckeckout.png' %}" alt="Postman Checkout Preview">
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>22. Orders</h3>
-      <code>GET http://127.0.0.1:8000/api/orders/</code>
-      <h4>📤 Response Example</h4>
-      <code>
-[
-  {
-    "phone": "1234567890",
-    "email": "john.doe@example.com",
-    "address": "123 Main St, City",
-    "items": [
-      {
-        "order": "66e04f65-12df-4b65-9672-b2b35d5ac0ca",
-        "product": "331eb658-d23b-48c9-a48c-947a6b263e2a",
-        "product_name": "Sunflower Seeds",
-        "product_slug": "sunflower-seeds",
-        "quantity": 1,
-        "price": "5.00"
-      }
-    ],
-    "total_price": "5.00",
-    "status": "Pending",
-    "created_at": "2025-02-21T20:12:08.589618Z"
-  }
-]
-      </code>
-      <div class="postman-preview">
-        <h3>🛠 Postman Example</h3>
-        <img src="{% static 'images/orders.png' %}" alt="Postman Orders Preview">
-      </div>
-    </div>
-    <h2 style="text-align: center;">Community</h2>
-  </div>
-</body>
-</html> {% endcomment %}
+  </body>
+</html>
+{% endcomment %}
