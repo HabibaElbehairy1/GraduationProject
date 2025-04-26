@@ -213,11 +213,11 @@ STATIC_URL = '/static/'
 
 # Keep your development static files (like your own CSS, JS, images)
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'project/static')
 ]
 
 # Store collected static files separately (used for production)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
