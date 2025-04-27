@@ -31,34 +31,28 @@ class User(AbstractUser):
         return self.username
 class UserProfile(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='userprofile'
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='userprofile')
+    image = models.ImageField(upload_to='profile_images/', default='profile_images/default.jpg', null=True, blank=True)
+    bio = models.TextField(null=True, blank=True) 
+    date_of_birth = models.DateField(null=True, blank=True)
+    phone_number = models.CharField(
+        max_length= 12,
+        unique=True,
+        null=False,
+        blank=False,
+        validators=[MinLengthValidator(11), MaxLengthValidator(12)],
+        help_text="Phone number must be exactly 11 or 12 characters long."
     )
-    image = models.ImageField(
-        upload_to='profile_images/',
-        default='profile_images/default.jpg',
-        null=True,
-        blank=True
-    )
-    bio = models.TextField(null=True, blank=True)
+    GENDER_CHOICES = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Engineer', 'Engineer'),
+    ]
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
+     # مثال لحقل إضافي
 
     def __str__(self):
         return f"{self.user.username}'s profile"
-
-    @property
-    def phone_number(self):
-        return self.user.phone_number
-
-    @property
-    def date_of_birth(self):
-        return self.user.date_of_birth
-
-    @property
-    def gender(self):
-        return dict(User.GENDER_CHOICES).get(self.user.gender)  # Optional: convert 'M' to 'Male'
-
 
 from django.utils import timezone
 from datetime import timedelta
