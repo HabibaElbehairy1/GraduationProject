@@ -51,7 +51,7 @@
       <div class="section">
         <h2 style="text-align: center">Accounts</h2>
         <h3>1. Register</h3>
-        <code>POST http://56.228.2.47:8000/api/register/</code>
+        <code>POST http://13.51.15.15/api/register/</code>
         <h4>🔹 Headers</h4>
         <code> Content-Type: application/json </code>
         <h4>📥 Request Body</h4>
@@ -76,7 +76,7 @@
 
       <div class="section">
         <h3>2. Login</h3>
-        <code>POST http://56.228.2.47:8000/api/login/</code>
+        <code>POST http://13.51.15.15/api/login/</code>
         <h4>🔹 Headers</h4>
         <code> Content-Type: application/json </code>
         <h4>📥 Request Body</h4>
@@ -100,7 +100,7 @@
 
       <div class="section">
         <h3>3. Profile</h3>
-        <code>GET http://56.228.2.47:8000/api/profile/</code>
+        <code>GET http://13.51.15.15/api/profile/</code>
         <h4>📤 Response Example</h4>
         <code>
           { "first_name": "John", "last_name": "Doe", "email":
@@ -119,7 +119,7 @@
 
       <div class="section">
         <h3>4. Update Profile</h3>
-        <code>POST http://56.228.2.47:8000/api/update/</code>
+        <code>POST http://13.51.15.15/api/update/</code>
         <h4>📥 Request Body</h4>
         <code>
           { "first_name": "John", "phone_number": "0987654321",
@@ -144,7 +144,7 @@
 
       <div class="section">
         <h3>5. Change Password</h3>
-        <code>POST http://56.228.2.47:8000/api/change_password/</code>
+        <code>POST http://13.51.15.15/api/change_password/</code>
         <h4>📥 Request Body</h4>
         <code>
           { "current_password": "password123", "new_password": "newpassword123",
@@ -165,7 +165,7 @@
 
       <div class="section">
         <h3>6. Get OTP</h3>
-        <code>POST http://56.228.2.47:8000/api/get_otp/</code>
+        <code>POST http://13.51.15.15/api/get_otp/</code>
         <h4>📥 Request Body</h4>
         <code> { "email": "john.doe@example.com" } </code>
         <h4>📤 Response Example</h4>
@@ -181,7 +181,7 @@
 
       <div class="section">
         <h3>7. Verify OTP</h3>
-        <code>POST http://56.228.2.47:8000/api/verify_otp/</code>
+        <code>POST http://13.51.15.15/api/verify_otp/</code>
         <h4>📥 Request Body</h4>
         <code> { "email": "john.doe@example.com", "otp": "123456" } </code>
         <h4>📤 Response Example</h4>
@@ -197,7 +197,7 @@
 
       <div class="section">
         <h3>8. Reset Password</h3>
-        <code>POST http://56.228.2.47:8000/api/reset_password/</code>
+        <code>POST http://13.51.15.15/api/reset_password/</code>
         <h4>📥 Request Body</h4>
         <code>
           { "email": "john.doe@example.com", "new_password": "newpassword123" }
@@ -218,7 +218,7 @@
       <h2 style="text-align: center">Home</h2>
       <div class="section">
         <h3>9. Submit a Review</h3>
-        <code>POST http://56.228.2.47:8000/api/reviews/</code>
+        <code>POST http://13.51.15.15/api/reviews/</code>
         <h4>🔹 Headers</h4>
         <code> Content-Type: multipart/form-data </code>
         <h4>📥 Request Body</h4>
@@ -243,7 +243,7 @@
 
       <div class="section">
         <h3>10. Get All Reviews</h3>
-        <code>GET http://56.228.2.47:8000/api/reviews/</code>
+        <code>GET http://13.51.15.15/api/reviews/</code>
         <h4>📤 Response Example</h4>
         <code>
           [ { "user_full_name": "Example User 1", "review": "This is an example
@@ -265,7 +265,7 @@
 
       <div class="section">
         <h3>11. Contact Us</h3>
-        <code>POST http://56.228.2.47:8000/api/contact/</code>
+        <code>POST http://13.51.15.15/api/contact/</code>
         <h4>🔹 Headers</h4>
         <code> Content-Type: application/json </code>
         <h4>📥 Request Body</h4>
@@ -293,7 +293,7 @@
       <h2 style="text-align: center">Shop</h2>
       <div class="section">
         <h3>12. Get Products</h3>
-        <code>GET http://56.228.2.47:8000/api/products/</code>
+        <code>GET http://13.51.15.15/api/products/</code>
         <h4>📤 Response Example</h4>
         <code>
           [ { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose
@@ -318,10 +318,10 @@
         </div>
         <h4>🔍 Filters</h4>
         <code>
-          http://56.228.2.47:8000/api/products/?keyword=rose
-          http://56.228.2.47:8000/api/products/?category=Plants
-          http://56.228.2.47:8000/api/products/?maxPrice=30
-          http://56.228.2.47:8000/api/products/?minPrice=10
+          http://13.51.15.15/api/products/?keyword=rose
+          http://13.51.15.15/api/products/?category=Plants
+          http://13.51.15.15/api/products/?maxPrice=30
+          http://13.51.15.15/api/products/?minPrice=10
         </code>
         <div class="postman-preview">
           <h3>🛠 Postman Example</h3>
@@ -350,7 +350,7 @@
 
       <div class="section">
         <h3>13. Product Details</h3>
-        <code>GET http://56.228.2.47:8000/api/products/rose-plant/</code>
+        <code>GET http://13.51.15.15/api/products/rose-plant/</code>
         <h4>📤 Response Example</h4>
         <code>
           { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name": "Rose Plant",
@@ -371,7 +371,7 @@
 
       <div class="section">
         <h3>14. Rate Product</h3>
-        <code>POST http://56.228.2.47:8000/api/products/rose-plant/rate/</code>
+        <code>POST http://13.51.15.15/api/products/rose-plant/rate/</code>
         <h4>📥 Request Body</h4>
         <code> { "rating": "5" } </code>
         <h4>📤 Response Example</h4>
@@ -391,7 +391,7 @@
       <!-- Wishlist APIs -->
       <div class="section">
         <h3>15. Wishlist - Add Item</h3>
-        <code>POST http://56.228.2.47:8000/api/wishlist/</code>
+        <code>POST http://13.51.15.15/api/wishlist/</code>
         <h4>📥 Request Body</h4>
         <code> { "product_slug": "rose-plant" } </code>
         <h4>📤 Response Example</h4>
@@ -415,7 +415,7 @@
 
       <div class="section">
         <h3>16. Wishlist - Get Items</h3>
-        <code>GET http://56.228.2.47:8000/api/wishlist/</code>
+        <code>GET http://13.51.15.15/api/wishlist/</code>
         <h4>📤 Response Example</h4>
         <code>
           [ { "product": { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name":
@@ -437,7 +437,7 @@
 
       <div class="section">
         <h3>17. Wishlist - Delete Item</h3>
-        <code>DELETE http://56.228.2.47:8000/api/wishlist/delete/rose-plant/</code>
+        <code>DELETE http://13.51.15.15/api/wishlist/delete/rose-plant/</code>
         <h4>📤 Response Example</h4>
         <code> { "message": "Item removed from wishlist." } </code>
         <div class="postman-preview">
@@ -452,7 +452,7 @@
       <!-- Cart APIs -->
       <div class="section">
         <h3>18. Cart - Add Item</h3>
-        <code>POST http://56.228.2.47:8000/api/cart/</code>
+        <code>POST http://13.51.15.15/api/cart/</code>
         <h4>📥 Request Body</h4>
         <code> { "product": "rose-plant" } </code>
         <h4>📤 Response Example</h4>
@@ -477,7 +477,7 @@
 
       <div class="section">
         <h3>19. Cart - Get Items</h3>
-        <code>GET http://56.228.2.47:8000/api/cart/</code>
+        <code>GET http://13.51.15.15/api/cart/</code>
         <h4>📤 Response Example</h4>
         <code>
           [ { "product": { "id": "331eb658-d23b-48c9-a48c-947a6b263e2a", "name":
@@ -499,7 +499,7 @@
 
       <div class="section">
         <h3>20. Cart - Update Quantity (Reduce/Delete)</h3>
-        <code>POST http://56.228.2.47:8000/api/cart/reduce-delete/rose-plant/</code>
+        <code>POST http://13.51.15.15/api/cart/reduce-delete/rose-plant/</code>
         <h4>📤 Response Example</h4>
         <code>
           { "message": "Item quantity reduced by 1.", "cart_item": { "product":
@@ -532,7 +532,7 @@
       <!-- Checkout & Orders -->
       <div class="section">
         <h3>21. Checkout</h3>
-        <code>POST http://56.228.2.47:8000/api/checkout/</code>
+        <code>POST http://13.51.15.15/api/checkout/</code>
         <h4>📥 Request Body</h4>
         <code>
           { "phone": "1234567890", "email": "john.doe@example.com", "address":
@@ -558,7 +558,7 @@
 
       <div class="section">
         <h3>22. Orders</h3>
-        <code>GET http://56.228.2.47:8000/api/orders/</code>
+        <code>GET http://13.51.15.15/api/orders/</code>
         <h4>📤 Response Example</h4>
         <code>
           [ { "phone": "1234567890", "email": "john.doe@example.com", "address":
@@ -581,7 +581,7 @@
       <!-- Community -->
       <div class="section">
         <h3>23. Add Post</h3>
-        <code>POST http://56.228.2.47:8000/api/posts/</code>
+        <code>POST http://13.51.15.15/api/posts/</code>
         <h4>📥 Request Body</h4>
         <code>
           { "post_name": "My First Post", "content": "This is the content of my
@@ -608,7 +608,7 @@
 
       <div class="section">
         <h3>24. View Posts</h3>
-        <code>GET http://56.228.2.47:8000/api/posts/</code>
+        <code>GET http://13.51.15.15/api/posts/</code>
         <h4>📤 Response Example</h4>
         <code>
           { "post_name": "My First Post edit", "id":
@@ -635,7 +635,7 @@
 
       <div class="section">
         <h3>25. Edit Post</h3>
-        <code>PUT http://56.228.2.47:8000/api/posts/post_id/</code>
+        <code>PUT http://13.51.15.15/api/posts/post_id/</code>
         <h4>📥 Request Body</h4>
         <code>
           { "post_name": "My First Post edit", "content": "This is the content
@@ -663,7 +663,7 @@
 
       <div class="section">
         <h3>26. Delete Post</h3>
-        <code>DELETE http://56.228.2.47:8000/api/posts/post_id/</code>
+        <code>DELETE http://13.51.15.15/api/posts/post_id/</code>
         <h4>📤 Response Example</h4>
         <code> { "message": "Post deleted successfully" } </code>
 
@@ -671,7 +671,7 @@
 
       <div class="section">
         <h3>27. Add Comment</h3>
-        <code>POST http://56.228.2.47:8000/api/posts/post_id/comments/</code>
+        <code>POST http://13.51.15.15/api/posts/post_id/comments/</code>
         <h4>📥 Request Body</h4>
         <code> { "comment": "test" } </code>
         <h4>📤 Response Example</h4>
@@ -692,7 +692,7 @@
 
       <div class="section">
         <h3>28. Edit Comment</h3>
-        <code>PUT http://56.228.2.47:8000/api/posts/post_id/comments/comment_id/</code>
+        <code>PUT http://13.51.15.15/api/posts/post_id/comments/comment_id/</code>
         <h4>📥 Request Body</h4>
         <code> { "comment": "edited" } </code>
         <h4>📤 Response Example</h4>
@@ -713,7 +713,7 @@
 
       <div class="section">
         <h3>29. Delete Comment</h3>
-        <code>DELETE http://56.228.2.47:8000/api/posts/post_id/comments/comment_id/</code>
+        <code>DELETE http://13.51.15.15/api/posts/post_id/comments/comment_id/</code>
         <h4>📤 Response Example</h4>
         <code> { "message": "Comment deleted successfully" } </code>
   
@@ -721,7 +721,7 @@
       <h2 style="text-align: center">AI</h2>
       <div class="section">
         <h3>30. Predict</h3>
-        <code>POST http://56.228.2.47:8000/api/predict/</code>
+        <code>POST http://13.51.15.15/api/predict/</code>
         <h4>📥 Request Body</h4>
         <code> { "image": "test.png" } </code>
         <h4>📤 Response Example</h4>
