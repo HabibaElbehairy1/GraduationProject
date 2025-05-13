@@ -133,7 +133,7 @@ DATABASES = {
         'NAME': 'grovana',
         'USER': 'grovana',
         'PASSWORD': 'grovana1234',
-        'HOST': 'grovana.cha8yi6yse97.eu-north-1.rds.amazonaws.com',
+        'HOST': 'grovana.ce7kieyuo217.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
 
     }
